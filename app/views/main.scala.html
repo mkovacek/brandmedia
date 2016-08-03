@@ -1,0 +1,18 @@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>@title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+        <link defer rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.blue-deep_orange.min.css" >
+        <link defer rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")" >
+    </head>
+    <body>
+        @content
+        <link defer rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" >
+        @*<link defer rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css" >*@
+        <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+    </body>
+</html>

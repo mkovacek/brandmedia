@@ -1,0 +1,261 @@
+/*========UTILS============*/
+body{
+    background-color: rgba(0, 0, 0, 0.9);
+}
+/*========END OF UTILS============*/
+
+/*========SCROLL BAR============*/
+::-webkit-scrollbar
+{
+    width: 3px; /*2px*/
+    background-color: #FFFFFF;
+}
+
+::-webkit-scrollbar:hover
+{
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb
+{
+    background-color: rgb(33,150,243);
+}
+/*========END OF SCROLL BAR============*/
+
+/*========FONTS============*/
+@font-face {
+    font-family: Archive;
+    src: url("../fonts/Archive.otf") format("opentype");
+}
+/*========END OF FONTS============*/
+
+/*========INDEX============*/
+.layout-transparent {
+    opacity: 1;
+    background: url('../images/index.jpg') center / cover;
+}
+.layout-transparent .mdl-layout__header,
+.layout-transparent .mdl-layout__drawer-button {
+    color: white;
+}
+.logo-text{
+    font-family: Archive;
+}
+.logo-text--size{
+    font-size: 40px;
+}
+.mdl-navigation__link{
+    opacity: 1;
+}
+.link:hover {
+    font-weight: 700;
+    font-size: 16px;
+    border-bottom: 3px solid rgb(33,150,243);
+    text-decoration: none;
+}
+.mdl-layout__content--flex {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-align-content: center;
+    -ms-flex-line-pack: center;
+    align-content: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.mdl-layout__content--flex .content{
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    -webkit-flex: 0 1 auto;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    -webkit-align-self: center;
+    -ms-flex-item-align: center;
+    align-self: center;
+}
+.content h1{
+    font-family: Archive;
+    color: #FFFFFF;
+    text-align: center;
+}
+/*========END OF INDEX============*/
+
+/*========SIGN IN============*/
+.mdl-layout__content--flex--Forms {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-align-content: flex-start;
+    -ms-flex-line-pack: start;
+    align-content: flex-start;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.mdl-layout__content--flex--Forms .content{
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    -webkit-flex: 0 1 auto;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    -webkit-align-self: auto;
+    -ms-flex-item-align: auto;
+    align-self: auto;
+}
+.mdl-card--width{
+    width: calc(100% + 16px)!important;
+}
+.mdl-card--image > .mdl-card__title{
+    height: 150px;
+    background: url('../images/signin.jpg') center / cover;
+}
+/*========END OF SIGN IN============*/
+
+/*========SIGN UP============*/
+.mdl-card--image--SignUp > .mdl-card__title{
+    height: 150px;
+    background: url('../images/presignup.jpg') bottom / cover;
+}
+/*========END OF SIGN UP============*/
+
+/*========PANEL============*/
+    /*######MAIN LAYOUT#######*/
+.link--panel:hover {
+    font-weight: 700;
+    font-size: 16px;
+    border-bottom: 3px solid #FFFFFF;
+    text-decoration: none;
+}
+.bm-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+}
+.bm-layout .bm-header .mdl-textfield {
+    padding: 0px;
+    margin-top: 41px;
+}
+.bm-layout .bm-header .mdl-textfield .mdl-textfield__expandable-holder {
+    bottom: 19px;
+}
+.bm-layout .mdl-layout__header .mdl-layout__drawer-button {
+    /*color: rgba(0, 0, 0, 0.54);*/
+    background: url('../images/index.jpg') center / cover;
+}
+.bm-drawer {
+    border: none;
+    background: url('../images/index.jpg') center / cover;
+}
+/* iOS Safari specific workaround */
+.bm-drawer .mdl-menu__container {
+    z-index: -1;
+}
+.bm-drawer .bm-navigation {
+    z-index: -2;
+}
+/* END iOS Safari specific workaround */
+.bm-drawer .mdl-menu .mdl-menu__item {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+
+}
+.bm-drawer-header {
+    box-sizing: border-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: flex-end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    padding-right: 16px;
+    padding-left: 16px;
+    height: 150px;
+    background: url('../images/logo.png') top / cover;
+
+}
+.bm-avatar-dropdown {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    position: relative;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: -15px;
+}
+.bm-navigation {
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+}
+.bm-layout .bm-navigation .mdl-navigation__link {
+    display: -webkit-flex !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.56);
+    font-weight: 500;
+}
+.mdl-menu__item:hover {
+    background-color: rgb(33,150,243);
+}
+.mdl-layout__drawer .mdl-navigation .mdl-navigation__link:hover {
+    background-color: rgb(33,150,243);
+}
+.bm-navigation .mdl-navigation__link .material-icons {
+    font-size: 24px;
+    color: #FFFFFF;
+    margin-right: 32px;
+}
+    /*######END OF MAIN LAYOUT#######*/
+/*========END OF PANEL============*/
+
+/*========MEDIA QUERIS=======*/
+@media (max-width: 839px) and (min-width: 480px){
+    .mdl-card--width{
+        width: calc(100%)!important;
+    }
+}
+@media (max-width: 479px){
+    .mdl-card--width{
+        width: calc(100%)!important;
+    }
+}
+/*========END OG MEDIA QUERIS*/

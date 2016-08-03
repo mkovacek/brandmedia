@@ -1,0 +1,38 @@
+@main("Brandmedia") {
+    <!-- Always shows a header, even in smaller screens. -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+        <header class="mdl-layout__header mdl-layout__header--transparent layout-transparent">
+            <div class="mdl-layout__header-row">
+                <div class="mdl-layout-spacer"></div>
+                <a class="mdl-layout-title mdl-navigation__link logo-text logo-text--size mdl-color-text--white" href="@routes.HomeController.index()">BRANDMEDIA</a>
+            </div>
+        </header>
+        <div class="bm-drawer mdl-layout__drawer mdl-color-text--blue-grey-50">
+            <header class="bm-drawer-header">
+                <div class="bm-avatar-dropdown">
+                    <span>Matija Kovaček</span>
+                    <div class="mdl-layout-spacer"></div>
+                    <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+                        <i class="material-icons" role="presentation">arrow_drop_down</i>
+                        <span class="visuallyhidden">Accounts</span>
+                    </button>
+                    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
+                        <li class="mdl-menu__item"><i class="material-icons">account_box</i><a class="mdl-navigation__link mdl-color-text--black" href="">&nbsp;SETTINGS</a></li>
+                        <li class="mdl-menu__item"><i class="material-icons">power_settings_new</i><a class="mdl-navigation__link mdl-color-text--black" href="@routes.AuthenticationController.logout()">&nbsp;LOG OUT</a></li>
+                    </ul>
+                </div>
+            </header>
+            <nav class="bm-navigation mdl-navigation">
+                <hr>
+                <a class="mdl-navigation__link mdl-color-text--white" href=""><i class="mdl-color-text--white material-icons" role="presentation">playlist_add</i>Keywords</a>
+                <a class="mdl-navigation__link mdl-color-text--white" href=""><i class="mdl-color-text--white material-icons" role="presentation">message</i>Mentions</a>
+                <a class="mdl-navigation__link mdl-color-text--white" href=""><i class="mdl-color-text--white material-icons" role="presentation">info</i>Analytics</a>
+            </nav>
+        </div>
+        <main class="mdl-layout__content mdl-color--grey-200">
+            <div class="panel-content ">
+                <h1>Test</h1><h1>Test</h1><h1>Test</h1><h1>Test</h1><h1>Test</h1><h1>Test</h1><h1>Test</h1><h1>Test</h1><h1>Test</h1><h1>Test</h1><h1>Test</h1>
+            </div>
+        </main>
+    </div>
+}

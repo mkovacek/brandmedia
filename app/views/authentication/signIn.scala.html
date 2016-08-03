@@ -1,0 +1,54 @@
+@main("Brandmedia") {
+    <div id="signIn" class="layout-transparent mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header mdl-layout__header--transparent  mdl-layout--no-desktop-drawer-button">
+            <div class="mdl-layout__header-row  mdl-layout--large-screen-only">
+                <a class="mdl-layout-title mdl-navigation__link logo-text logo-text--size mdl-color-text--white" href="@routes.HomeController.index()">Brandmedia</a>
+                <div class="mdl-layout-spacer"></div>
+                <nav class="mdl-navigation">
+                    <a class="mdl-navigation__link link mdl-color-text--white" href="@routes.AuthenticationController.signUp()">TRY, IT'S FREE</a>
+                    <a class="mdl-navigation__link link mdl-color-text--white" href="@routes.AuthenticationController.signIn()">SIGN IN</a>
+                </nav>
+            </div>
+        </header>
+        <div class="mdl-layout__drawer">
+            <span class="mdl-layout-title logo-text"><a class="mdl-navigation__link" href="@routes.HomeController.index()">Brandmedia</a></span>
+            <nav class="mdl-navigation">
+                <a class="mdl-navigation__link" href="@routes.AuthenticationController.signUp()">TRY, IT'S FREE</a>
+                <a class="mdl-navigation__link" href="@routes.AuthenticationController.signIn()">SIGN IN</a>
+            </nav>
+        </div>
+        <main class="mdl-layout__content">
+            <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-offset-desktop mdl-cell--10-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+                    <div class="mdl-card mdl-card--width mdl-card--image">
+                        <div class="mdl-card__title">
+                            <h2 class="mdl-card__title-text">Sign In</h2>
+                        </div>
+                        <div class="mdl-card__supporting-text">
+                            <form id="signIn_Form" class="mdl-grid" action="#">
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--10-col-desktop  mdl-cell--1-offset-desktop mdl-cell--10-col-phone">
+                                    <input class="mdl-textfield__input" type="text" id="signIn_email" pattern="^[_a-z0-9-+]+(\.[_a-z0-9-+]+)*@@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$">
+                                    <label class="mdl-textfield__label" for="signIn_email">Email</label>
+                                    <span class="mdl-textfield__error">Only email is allowed!</span>
+                                </div>
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--10-col-desktop  mdl-cell--1-offset-desktop mdl-cell--10-col-phone">
+                                    <input class="mdl-textfield__input" type="password" id="signIn_Password" >
+                                    <label class="mdl-textfield__label" for="signIn_Password">Password</label>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="mdl-card__actions mdl-card--border">
+                            <div class="mdl-grid">
+                                <div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--9-offset-desktop mdl-cell--2-col-phone mdl-cell--2-offset-phone ">
+                                    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                        Submit
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+}
