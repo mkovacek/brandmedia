@@ -248,6 +248,32 @@ body{
     margin-right: 32px;
 }
     /*######END OF MAIN LAYOUT#######*/
+
+    /*######KEYWORDS#######*/
+
+.mdl-textfield__input.mdl-textfield__input--border_white {
+    border-bottom: 1px solid rgba(255,255,255,1);
+}
+.mdl-textfield__label.mdl-textfield__label--border_white:after {
+    background-color: rgb(255,255,255);
+    bottom: 20px;
+    content: '';
+    height: 2px;
+    left: 45%;
+    position: absolute;
+    transition-duration: .2s;
+    transition-timing-function: cubic-bezier(.4,0,.2,1);
+    visibility: hidden;
+    width: 10px;
+}
+.mdl-button--fab.mdl-button--colored.mdl-button--colored--white{
+    background: rgb(255,255,255);
+}
+
+
+    /*######END OF KEYWORDS#######*/
+
+
 /*========END OF PANEL============*/
 
 /*========MEDIA QUERIS=======*/
