@@ -124,7 +124,10 @@ body{
     align-self: auto;
 }
 .mdl-card--width{
-    width: calc(100% + 16px)!important;
+     width: calc(100% + 16px)!important;
+ }
+.mdl-card--width--full{
+    width: 100% !important;
 }
 .mdl-card--image > .mdl-card__title{
     height: 150px;

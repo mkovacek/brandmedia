@@ -5,7 +5,8 @@ angular.module('brandmedia', [
   'ui.router',
   'angularUtils.directives.dirPagination',
   'angular-storage',
-  'angular-jwt'
+  'angular-jwt',
+/*  'mdl'*/
 ])
 
 .config(['$urlRouterProvider','$stateProvider','$locationProvider',function($urlRouterProvider, $stateProvider,$locationProvider) {
@@ -14,31 +15,51 @@ angular.module('brandmedia', [
   $stateProvider
       .state('home', {
         url: '/home',
-        templateUrl: '/home/keywords',
+        views: {
+              "content@": {
+                  templateUrl: "/home/keywords"
+              }
+        },
         module:'private'
       })
 
       .state('keywords', {
           url: '/keywords',
-          templateUrl: '/home/keywords',
+          views: {
+              "content@": {
+                  templateUrl: "/home/keywords"
+              }
+          },
           module:'private'
       })
 
       .state('mentions', {
           url: '/mentions',
-          templateUrl: '/home/mentions',
-          module:'private'
+          module:'private',
+          views: {
+              "content@": {
+                  templateUrl: "/home/mentions"
+              }
+          }
       })
 
       .state('analytics', {
           url: '/analytics',
-          templateUrl: '/home/analytics',
+          views: {
+              "content@": {
+                  templateUrl: "/home/analytics"
+              }
+          },
           module:'private'
       })
 
       .state('settings', {
           url: '/settings',
-          templateUrl: '/home/settings',
+          views: {
+              "content@": {
+                  templateUrl: "/home/settings"
+              }
+          },
           module:'private'
       })
 
@@ -47,7 +68,15 @@ angular.module('brandmedia', [
           enabled: true,
           requireBase: false
       });
-}]);
+}])
+
+.run(function($rootScope, $location, $timeout) {
+    $rootScope.$on('$viewContentLoaded', function() {
+        $timeout(function() {
+            componentHandler.upgradeAllRegistered();
+        });
+    });
+});
 
 /*
 .run(['$rootScope','jwtHelper','store','$state',function($rootScope,jwtHelper,store,$state){
