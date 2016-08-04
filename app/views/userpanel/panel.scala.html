@@ -1,10 +1,10 @@
 @main("Brandmedia") {
     <!-- Always shows a header, even in smaller screens. -->
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+    <div ng-app="brandmedia" class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
         <header class="mdl-layout__header mdl-layout__header--transparent layout-transparent">
             <div class="mdl-layout__header-row">
                 <div class="mdl-layout-spacer"></div>
-                <a class="mdl-layout-title mdl-navigation__link logo-text logo-text--size mdl-color-text--white" href="@routes.HomeController.index()">BRANDMEDIA</a>
+                <a class="mdl-layout-title mdl-navigation__link logo-text logo-text--size mdl-color-text--white" href="@routes.HomeController.index("")">BRANDMEDIA</a>
             </div>
         </header>
         <div class="bm-drawer mdl-layout__drawer mdl-color-text--blue-grey-50">
@@ -24,14 +24,14 @@
             </header>
             <nav class="bm-navigation mdl-navigation">
                 <hr>
-                <a class="mdl-navigation__link mdl-color-text--white" href=""><i class="mdl-color-text--white material-icons" role="presentation">playlist_add</i>Keywords</a>
-                <a class="mdl-navigation__link mdl-color-text--white" href=""><i class="mdl-color-text--white material-icons" role="presentation">message</i>Mentions</a>
-                <a class="mdl-navigation__link mdl-color-text--white" href=""><i class="mdl-color-text--white material-icons" role="presentation">info</i>Analytics</a>
+                <a class="mdl-navigation__link mdl-color-text--white" ui-sref="keywords"><i class="mdl-color-text--white material-icons" role="presentation">playlist_add</i>Keywords</a>
+                <a class="mdl-navigation__link mdl-color-text--white" ui-sref="mentions"><i class="mdl-color-text--white material-icons" role="presentation">message</i>Mentions</a>
+                <a class="mdl-navigation__link mdl-color-text--white" ui-sref="analytics"><i class="mdl-color-text--white material-icons" role="presentation">info</i>Analytics</a>
             </nav>
         </div>
         <main class="mdl-layout__content mdl-color--grey-200">
-            <div class="panel-content ">
-                <h1>Test</h1><h1>Test</h1><h1>Test</h1><h1>Test</h1><h1>Test</h1><h1>Test</h1><h1>Test</h1><h1>Test</h1><h1>Test</h1><h1>Test</h1><h1>Test</h1>
+            <div class="panel-content">
+                <div ui-view> </div>
             </div>
         </main>
     </div>

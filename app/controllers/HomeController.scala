@@ -11,8 +11,12 @@ import play.api.mvc._
 @Singleton
 class HomeController @Inject() (cache: Cached) extends Controller {
 
-  def index = cache("homePage"){
-    //ako postoji session redirect na /home
+/*  def main(any: String) = Action {
+    Ok(views.html.main("Brandmedia"))
+  }*/
+
+  def index(any: String) = cache("homePage"){
+    //ako postoji session ili jwt redirect na /home
     Action {
       Ok(views.html.homepage.index("homepage"))
     }
