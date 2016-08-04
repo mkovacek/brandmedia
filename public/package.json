@@ -1,11 +1,18 @@
 {
-  "name": "brendmedia",
+  "name": "brandmedia",
   "version": "1.0.0",
-  "description": "brendmedia",
+  "description": "track your brands",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Matija Kovaček",
-  "license": "MIT"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mkovacek/brandmedia.git"
+  },
+  "dependencies": {
+    "bower": "^1.7.9"
+  }
 }
