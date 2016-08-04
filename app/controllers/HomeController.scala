@@ -14,7 +14,7 @@ class HomeController @Inject() (cache: Cached) extends Controller {
   def index = cache("homePage"){
     //ako postoji session redirect na /home
     Action {
-      Ok(views.html.index())
+      Ok(views.html.homepage.index("homepage"))
     }
   }
 

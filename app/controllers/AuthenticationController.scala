@@ -12,14 +12,15 @@ import play.api.mvc._
 class AuthenticationController @Inject() (cache: Cached) extends Controller{
   def signIn = cache("signInPage"){
     Action {
-      Ok(views.html.authentication.signIn())
+      Ok(views.html.homepage.index("signin"))
     }
   }
   def signUp = cache("signUpPage"){
     Action {
-      Ok(views.html.authentication.signUp())
+      Ok(views.html.homepage.index("signup"))
     }
   }
+
   def register = ???
   def login = ???
 
