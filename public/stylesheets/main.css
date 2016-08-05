@@ -251,7 +251,7 @@ body{
 
     /*######KEYWORDS#######*/
 
-.mdl-textfield__input.mdl-textfield__input--border_white {
+/*.mdl-textfield__input.mdl-textfield__input--border_white {
     border-bottom: 1px solid rgba(255,255,255,1);
 }
 .mdl-textfield__label.mdl-textfield__label--border_white:after {
@@ -268,11 +268,17 @@ body{
 }
 .mdl-button--fab.mdl-button--colored.mdl-button--colored--white{
     background: rgb(255,255,255);
-}
+}*/
 
 
     /*######END OF KEYWORDS#######*/
 
+    /*######KEYWORD LIST#######*/
+.bm-list-radio {
+    display: inline;
+    padding-top: 3px;
+}
+    /*######END OF KEYWORD LIST#######*/
 
 /*========END OF PANEL============*/
 

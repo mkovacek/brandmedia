@@ -24,7 +24,7 @@ angular.module('brandmedia', [
       })
 
       .state('keywords', {
-          url: '/keywords',
+          url: '/home/keywords/',
           views: {
               "content@": {
                   templateUrl: "/home/keywords"
@@ -34,7 +34,7 @@ angular.module('brandmedia', [
       })
 
       .state('mentions', {
-          url: '/mentions',
+          url: '/home/mentions/',
           module:'private',
           views: {
               "content@": {
@@ -44,7 +44,7 @@ angular.module('brandmedia', [
       })
 
       .state('analytics', {
-          url: '/analytics',
+          url: '/home/analytics/',
           views: {
               "content@": {
                   templateUrl: "/home/analytics"
@@ -54,7 +54,7 @@ angular.module('brandmedia', [
       })
 
       .state('settings', {
-          url: '/settings',
+          url: '/home/settings/',
           views: {
               "content@": {
                   templateUrl: "/home/settings"
