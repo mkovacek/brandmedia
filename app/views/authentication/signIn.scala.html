@@ -1,6 +1,6 @@
 <main class="mdl-layout__content">
     <div class="mdl-grid">
-        <div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-offset-desktop mdl-cell--10-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-offset-desktop mdl-cell--10-col-tablet mdl-cell--4-col-phone">
             <div class="mdl-card mdl-card--width mdl-card--image">
                 <div class="mdl-card__title">
                     <h2 class="mdl-card__title-text">Sign In</h2>
@@ -8,12 +8,12 @@
                 <div class="mdl-card__supporting-text">
                     <form id="signIn_Form" class="mdl-grid" action="#">
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--10-col-desktop  mdl-cell--1-offset-desktop mdl-cell--10-col-phone">
-                            <input class="mdl-textfield__input" type="text" id="signIn_email" pattern="^[_a-z0-9-+]+(\.[_a-z0-9-+]+)*@@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$">
+                            <input class="mdl-textfield__input" type="text" id="signIn_email" name="signIn_email" pattern="^[_a-z0-9-+]+(\.[_a-z0-9-+]+)*@@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$">
                             <label class="mdl-textfield__label" for="signIn_email">Email</label>
                             <span class="mdl-textfield__error">Only email is allowed!</span>
                         </div>
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--10-col-desktop  mdl-cell--1-offset-desktop mdl-cell--10-col-phone">
-                            <input class="mdl-textfield__input" type="password" id="signIn_Password" >
+                            <input class="mdl-textfield__input" type="password" id="signIn_Password" name="signIn_Password" >
                             <label class="mdl-textfield__label" for="signIn_Password">Password</label>
                         </div>
                     </form>

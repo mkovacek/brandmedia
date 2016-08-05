@@ -24,7 +24,7 @@ class PanelController @Inject() extends Controller{
   }
 
   def settings = Action{
-    Ok(views.html.userpanel.analytics())
+    Ok(views.html.userpanel.settings())
   }
 }
 

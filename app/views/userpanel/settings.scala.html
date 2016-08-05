@@ -1,1 +1,42 @@
-<p>Settings</p>
+<div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+        <div class="mdl-card mdl-card--width--full mdl-card--image--SignUp mdl-shadow--2dp">
+            <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text mdl-color-text--white">Settings</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                <form id="signIn_Form" class="mdl-grid" action="#">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--5-col-desktop mdl-cell--1-offset-desktop  mdl-cell--10-col-tablet mdl-cell--1-offset-tablet mdl-cell--10-col-phone ">
+                        <input class="mdl-textfield__input" type="text" id="settings_name" name="settings_name" value="Matija">
+                        <label class="mdl-textfield__label" for="settings_name">Name</label>
+                    </div>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--5-col-desktop mdl-cell--10-col-tablet  mdl-cell--1-offset-tablet mdl-cell--10-col-phone ">
+                        <input class="mdl-textfield__input" type="text" id="settings_surname" name="settings_surname" value="Kovaček">
+                        <label class="mdl-textfield__label" for="settings_surname">Surname</label>
+                    </div>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--10-col-desktop mdl-cell--1-offset-desktop mdl-cell--10-col-tablet  mdl-cell--1-offset-tablet mdl-cell--10-col-phone ">
+                        <input class="mdl-textfield__input" type="text" id="settings_email" pattern="^[_a-z0-9-+]+(\.[_a-z0-9-+]+)*@@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$" value="matija.kovacek@@gmail.com">
+                        <label class="mdl-textfield__label" for="settings_email">Email</label>
+                        <span class="mdl-textfield__error">Only email is allowed!</span>
+                    </div>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--5-col-desktop mdl-cell--1-offset-desktop mdl-cell--10-col-tablet  mdl-cell--1-offset-tablet mdl-cell--10-col-phone ">
+                        <input class="mdl-textfield__input" type="password" id="settings_password">
+                        <label class="mdl-textfield__label" for="settings_password">Old password</label>
+                    </div>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--5-col-desktop mdl-cell--10-col-tablet  mdl-cell--1-offset-tablet mdl-cell--10-col-phone ">
+                        <input class="mdl-textfield__input" type="password" id="settings_rPassword" >
+                        <label class="mdl-textfield__label" for="settings_rPassword">New password</label>
+                    </div>
+                </form>
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <div class="mdl-grid">
+                    <div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--9-offset-desktop mdl-cell--2-col-tablet mdl-cell--6-offset-tablet mdl-cell--2-col-phone mdl-cell--2-offset-phone ">
+                        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Submit</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

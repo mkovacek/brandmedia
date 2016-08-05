@@ -1,1 +1,77 @@
-<p>Analytics</p>
+<div class="mdl-grid">
+  @keywordsList()
+  <div class="mdl-cell mdl-cell--margin mdl-cell--9-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+    <div class="mdl-grid mdl-grid--padding">
+      <div class="mdl-cell mdl-cell--margin mdl-cell--6-col-desktop mdl-cell--12-col-tablet mdl-cell--12-col-phone">
+        <div class="mdl-card mdl-card--width--full mdl-shadow--2dp">
+          <div class="mdl-card__title">
+            <h2 class="mdl-card__title-text">Statistics</h2>
+          </div>
+          <div class="mdl-card__actions mdl-card--border">
+            <c3chart bindto-id="donut-plot1-chart">
+              <chart-column column-id="Data 1"
+              column-values="70"
+              column-type="donut"/>
+              <chart-column column-id="Data 2"
+              column-values="35"
+              column-type="donut"/>
+              <chart-column column-id="Data 3"
+              column-values="60"
+              column-type="donut"/>
+              <chart-donut title="Mentions" width="60"/>
+            </c3chart>
+           </div>
+        </div>
+      </div>
+      <div class="mdl-cell mdl-cell--margin--top mdl-cell--6-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+        <div class="mdl-card mdl-card--width--full mdl-shadow--2dp">
+          <div class="mdl-card__title">
+            <h2 class="mdl-card__title-text">Statistics 2</h2>
+          </div>
+          <div class="mdl-card__actions mdl-card--border">
+            <c3chart bindto-id="chart2">
+              <chart-column column-id="Croatia"
+              column-values="452"
+              column-type="pie"/>
+              <chart-column column-id="Slovenia"
+            column-values="232"
+            column-type="pie"/>
+              <chart-column column-id="Serbia"
+              column-values="282"
+              column-type="pie"/>
+              <chart-column column-id="Austria"
+              column-values="132"
+              column-type="pie"/>
+              <chart-column column-id="Others"
+              column-values="22"
+              column-type="pie"/>
+              <chart-pie expand="true"/>
+            </c3chart>
+          </div>
+        </div>
+      </div>
+      <div class="mdl-cell mdl-cell--margin mdl-cell--12-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+        <div class="mdl-card mdl-card--width--full mdl-shadow--2dp">
+          <div class="mdl-card__title">
+            <h2 class="mdl-card__title-text">Statistics 3</h2>
+          </div>
+          <div class="mdl-card__actions mdl-card--border">
+            <c3chart bindto-id="stacked-bar-plot1-chart">
+              <chart-column column-id="data 1"
+              column-name="Data 1"
+              column-color="red"
+              column-values="30,200,100,400,150,250"
+              column-type="bar"/>
+              <chart-column column-id="data 2"
+              column-name="Data 2"
+              column-color="green"
+              column-values="50,20,10,40,15,25"
+              column-type="bar"/>
+              <chart-group group-values="data 1,data 2"/>
+            </c3chart>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
