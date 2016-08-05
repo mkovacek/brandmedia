@@ -278,6 +278,12 @@ body{
     display: inline;
     padding-top: 3px;
 }
+
+/*.scrollable-keyword__list{
+    height: auto;
+    overflow-x: hidden;
+    width: 100%;
+}*/
     /*######END OF KEYWORD LIST#######*/
 
 /*========END OF PANEL============*/
