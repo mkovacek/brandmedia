@@ -6,6 +6,7 @@ angular.module('brandmedia', [
   'angularUtils.directives.dirPagination',
   'angular-storage',
   'angular-jwt',
+  'gridshore.c3js.chart'
 /*  'mdl'*/
 ])
 

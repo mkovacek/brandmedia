@@ -286,6 +286,37 @@ body{
 }*/
     /*######END OF KEYWORD LIST#######*/
 
+    /*######ANALYTICS#######*/
+@media (min-width: 840px){
+    .mdl-cell.mdl-cell--margin{
+        margin-top: 0px;
+        margin-left: 0px;
+    }
+    .mdl-cell.mdl-cell--margin--top{
+        margin-top: 0px;
+    }
+    .mdl-grid.mdl-grid--padding{
+        margin-top: 0px;
+        margin-left: 0px;
+    }
+}
+
+@media (max-width: 839px) and (min-width: 480px){
+/*    .mdl-cell.mdl-cell--margin{
+        margin-right: 0px;
+        margin-left: 0px;
+    }
+    .mdl-cell.mdl-cell--margin--top{
+        margin-right: 0px;
+        margin-left: 0px;
+    }*/
+    .mdl-grid.mdl-grid--padding{
+        padding: 0px;
+    }
+}
+
+    /*######END OF ANALYTICS#######*/
+
 /*========END OF PANEL============*/
 
 /*========MEDIA QUERIS=======*/
