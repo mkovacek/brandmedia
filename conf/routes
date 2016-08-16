@@ -9,6 +9,7 @@ GET     /signup                 controllers.AuthenticationController.signUp
 GET     /logout                 controllers.AuthenticationController.logout
 #user panel
 GET     /home                   controllers.PanelController.panel(any="none")
+
 #for angular
 GET     /home/keywords          controllers.PanelController.keywords
 GET     /home/mentions          controllers.PanelController.mentions
