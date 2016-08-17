@@ -9,5 +9,5 @@ import slick.driver.MySQLDriver.api._
 class UserTypeTable(tag : Tag) extends Table[UserType](tag, "user_type") {
   def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
   def name = column[String]("name")
-  def * = (id, name) <> (UserType.tupled, UserType.unapply)
+  def * = (name,id) <> (UserType.tupled, UserType.unapply)
 }

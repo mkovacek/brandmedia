@@ -3,4 +3,4 @@ package models.entities
 /**
   * Created by Matija on 16.8.2016..
   */
-case class UserDetails(id: Long, name: String, surname: String)
+case class UserDetails(name: String, surname: String, id: Long = 0L)

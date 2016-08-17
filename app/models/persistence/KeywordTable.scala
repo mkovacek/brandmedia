@@ -11,6 +11,6 @@ class KeywordTable(tag : Tag) extends Table[Keyword](tag, "keyword") {
   def keyword = column[String]("keyword")
   def active = column[Int]("active")
   def userId = column[Long]("user_id")
-  def * = (id,keyword,active,userId) <> (Keyword.tupled, Keyword.unapply)
+  def * = (keyword,active,userId,id) <> (Keyword.tupled, Keyword.unapply)
   def user = foreignKey("keyword_user_fk",userId,TableQuery[UserTable])(_.id)
 }

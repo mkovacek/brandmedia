@@ -1,0 +1,17 @@
+<header class="mdl-layout__header mdl-layout__header--transparent  mdl-layout--no-desktop-drawer-button">
+    <div class="mdl-layout__header-row  mdl-layout--large-screen-only">
+        <a class="mdl-layout-title mdl-navigation__link logo-text logo-text--size mdl-color-text--white" href="@routes.HomeController.index("")">Brandmedia</a>
+        <div class="mdl-layout-spacer"></div>
+        <nav class="mdl-navigation">
+            <a class="mdl-navigation__link link mdl-color-text--white" href="@routes.HomeController.signUp()">TRY, IT'S FREE</a>
+            <a class="mdl-navigation__link link mdl-color-text--white" href="@routes.HomeController.signIn()">SIGN IN</a>
+        </nav>
+    </div>
+</header>
+<div class="mdl-layout__drawer">
+    <span class="mdl-layout-title logo-text"><a class="mdl-navigation__link" href="@routes.HomeController.index("")">Brandmedia</a></span>
+    <nav class="mdl-navigation">
+        <a class="mdl-navigation__link" href="@routes.HomeController.signUp()">TRY, IT'S FREE</a>
+        <a class="mdl-navigation__link" href="@routes.HomeController.signIn()">SIGN IN</a>
+    </nav>
+</div>

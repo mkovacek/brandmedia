@@ -3,25 +3,25 @@
 # ~~~~
 
 #home page
-GET     /                       controllers.HomeController.index(any="none")
-GET     /signin                 controllers.AuthenticationController.signIn
-GET     /signup                 controllers.AuthenticationController.signUp
-GET     /logout                 controllers.AuthenticationController.logout
+GET     /                           controllers.HomeController.index(any="none")
+GET     /signin                     controllers.HomeController.signIn
+GET     /signup                     controllers.HomeController.signUp
 
 #user panel
-GET     /home                   controllers.PanelController.panel(any="none")
+GET     /home                       controllers.PanelController.panel(any="none")
 #for angular
-GET     /home/keywords          controllers.PanelController.keywords
-GET     /home/mentions          controllers.PanelController.mentions
-GET     /home/analytics         controllers.PanelController.analytics
-GET     /home/settings          controllers.PanelController.settings
+GET     /home/keywords              controllers.PanelController.keywords
+GET     /home/mentions              controllers.PanelController.mentions
+GET     /home/analytics             controllers.PanelController.analytics
+GET     /home/settings              controllers.PanelController.settings
+GET     /home/*any                  controllers.PanelController.panel(any)
 
-GET     /home/*any              controllers.PanelController.panel(any)
-# An example controller showing how to use dependency injection
-#GET     /count                      controllers.CountController.count
-# An example controller showing how to write asynchronous code
-#GET     /message                    controllers.AsyncController.message
+#api
+POST    /api/authenicate/signup     controllers.AuthController.signUp
+POST    /api/authenicate/signin     controllers.AuthController.signIn
+POST    /api/authenicate/logout     controllers.AuthController.logout
+
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file            controllers.Assets.versioned(path="/public", file: Asset)
-GET     /*any                    controllers.HomeController.index(any)
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET     /*any                       controllers.HomeController.index(any)

@@ -19,6 +19,6 @@ class MentionTable(tag : Tag) extends Table[Mention](tag, "mention") {
   def retweetCount = column[Long]("retweet_count")
   def favoriteCount = column[Long]("favorite_count")
   def keywordId = column[Long]("keyword_id")
-  def * = (id,text,created,userName,userUserName,userLocation,userImage,retweetCount,favoriteCount,keywordId) <> (Mention.tupled, Mention.unapply)
+  def * = (text,created,userName,userUserName,userLocation,userImage,retweetCount,favoriteCount,keywordId,id) <> (Mention.tupled, Mention.unapply)
   def keyword = foreignKey("mention_keyword_fk",keywordId,TableQuery[KeywordTable])(_.id)
 }

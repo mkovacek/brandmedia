@@ -9,5 +9,5 @@ class UserDetailsTable(tag : Tag) extends Table[UserDetails](tag, "user_details"
   def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
   def name = column[String]("name")
   def surname = column[String]("surname")
-  def * = (id,name,surname) <> (UserDetails.tupled, UserDetails.unapply)
+  def * = (name,surname,id) <> (UserDetails.tupled, UserDetails.unapply)
 }
