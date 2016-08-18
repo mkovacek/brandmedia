@@ -3,7 +3,9 @@
 # ~~~~
 
 #home page
-GET     /                           controllers.HomeController.index(any="none")
+GET     /                           controllers.HomeController.home(any="none")
+GET     /index                      controllers.HomeController.index
+GET     /welcome                    controllers.HomeController.welcome
 GET     /signin                     controllers.HomeController.signIn
 GET     /signup                     controllers.HomeController.signUp
 #user panel
@@ -24,4 +26,4 @@ POST    /api/authenicate/logout     controllers.AuthController.logout
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
-GET     /*any                       controllers.HomeController.index(any)
+GET     /*any                       controllers.HomeController.home(any)

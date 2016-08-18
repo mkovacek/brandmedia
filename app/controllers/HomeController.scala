@@ -13,10 +13,22 @@ import play.api.mvc._
 @Singleton
 class HomeController @Inject() (cache: Cached, forms: Forms) extends Controller with Secured{
 
-  def index(any: String) = cache("homePage"){
+  def home(any: String) = cache("homePage"){
     //ako postoji session ili jwt redirect na /home
     Action {
       Ok(views.html.homepage.index())
+    }
+  }
+
+  def index = cache("index"){
+    Action {
+      Ok(views.html.homepage.header())
+    }
+  }
+
+  def welcome = cache("welcome"){
+    Action {
+      Ok(views.html.homepage.welcome())
     }
   }
 

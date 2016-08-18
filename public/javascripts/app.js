@@ -21,11 +21,39 @@ angular.module('brandmedia', [
   $stateProvider
       .state('index', {
           url: '/',
-          templateUrl: "/",
+          views: {
+              "":{
+                  templateUrl: "/index",
+              },
+              "content@index": {
+                  templateUrl: "/welcome"
+              }
+          },
           module:'public'
       })
 
-      .state('signin', {
+      .state('index.signin', {
+          url: 'signin',
+          views: {
+              "content": {
+                  templateUrl: "/signin"
+              }
+          },
+          module:'public'
+      })
+
+
+      .state('index.signup', {
+          url: 'signup',
+          views: {
+              "content": {
+                  templateUrl: "/signup"
+              }
+          },
+          module:'public'
+      })
+
+/*      .state('signin', {
           url: '/signin',
           templateUrl: "/signin",
           module:'public'
@@ -35,7 +63,7 @@ angular.module('brandmedia', [
           url: '/signup',
           templateUrl: "/signup",
           module:'public'
-      })
+      })*/
 
       .state('home', {
         url: '/home',
