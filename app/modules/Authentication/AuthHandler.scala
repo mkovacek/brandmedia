@@ -46,12 +46,6 @@ case class AuthHandler @Inject()(userDAO: UserDAO){
       case Some(user) => Bcrypt.validate(data.password,user.password)
       case None => false
     }
-
-   /* println(Await.result(userDAO.findByEmailAndPassword(data.email,Bcrypt.encrypt(data.password)), 1 second))
-    Await.result(userDAO.findByEmailAndPassword(data.email,Bcrypt.encrypt(data.password)), 1 second) match {
-      case Some(user) => true
-      case None => false
-    }*/
   }
 
   /*

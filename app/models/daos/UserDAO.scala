@@ -41,13 +41,6 @@ class UserDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider){
   }
 
   /*
-  * Method fetch user by email and password
-  * */
-/*  def findByEmailAndPassword(email: String, password: String): Future[Option[User]] = {
-    db.run(user.filter(_.email === email).filter(_.password === password).result.headOption)
-  }*/
-
-  /*
   * Method save new user
   * */
   def insertUser(newUser: User): Future[User] = {
