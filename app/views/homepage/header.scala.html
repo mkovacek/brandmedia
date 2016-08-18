@@ -1,18 +1,20 @@
-<header class="mdl-layout__header mdl-layout__header--transparent  mdl-layout--no-desktop-drawer-button">
-    <div class="mdl-layout__header-row  mdl-layout--large-screen-only">
-        <a class="mdl-layout-title mdl-navigation__link logo-text logo-text--size mdl-color-text--white" ui-sref="index">Brandmedia</a>
-        <div class="mdl-layout-spacer"></div>
+<div id="index" class="layout-transparent mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header mdl-layout__header--transparent  mdl-layout--no-desktop-drawer-button">
+        <div class="mdl-layout__header-row  mdl-layout--large-screen-only">
+            <a class="mdl-layout-title mdl-navigation__link logo-text logo-text--size mdl-color-text--white" ui-sref="index">Brandmedia</a>
+            <div class="mdl-layout-spacer"></div>
+            <nav class="mdl-navigation">
+                <a class="mdl-navigation__link link mdl-color-text--white" ui-sref=".signup">TRY, IT'S FREE</a>
+                <a class="mdl-navigation__link link mdl-color-text--white" ui-sref=".signin">SIGN IN</a>
+            </nav>
+        </div>
+    </header>
+    <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title logo-text"><a class="mdl-navigation__link" ui-sref="index">Brandmedia</a></span>
         <nav class="mdl-navigation">
-            <a class="mdl-navigation__link link mdl-color-text--white" ui-sref=".signup">TRY, IT'S FREE</a>
-            <a class="mdl-navigation__link link mdl-color-text--white" ui-sref=".signin">SIGN IN</a>
+            <a class="mdl-navigation__link" ui-sref=".signup">TRY, IT'S FREE</a>
+            <a class="mdl-navigation__link" ui-sref=".signin">SIGN IN</a>
         </nav>
     </div>
-</header>
-<div class="mdl-layout__drawer">
-    <span class="mdl-layout-title logo-text"><a class="mdl-navigation__link" ui-sref="index">Brandmedia</a></span>
-    <nav class="mdl-navigation">
-        <a class="mdl-navigation__link" ui-sref=".signup">TRY, IT'S FREE</a>
-        <a class="mdl-navigation__link" ui-sref=".signin">SIGN IN</a>
-    </nav>
+    <div ui-view="content"></div>
 </div>
-<div ui-view="content"></div>
