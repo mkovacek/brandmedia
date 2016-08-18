@@ -6,10 +6,10 @@
 GET     /                           controllers.HomeController.index(any="none")
 GET     /signin                     controllers.HomeController.signIn
 GET     /signup                     controllers.HomeController.signUp
-
 #user panel
 GET     /home                       controllers.PanelController.panel(any="none")
 #for angular
+GET     /home/content               controllers.PanelController.content
 GET     /home/keywords              controllers.PanelController.keywords
 GET     /home/mentions              controllers.PanelController.mentions
 GET     /home/analytics             controllers.PanelController.analytics

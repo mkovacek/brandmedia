@@ -6,58 +6,87 @@ angular.module('brandmedia', [
   'angularUtils.directives.dirPagination',
   'angular-storage',
   'angular-jwt',
-  'gridshore.c3js.chart'
-/*  'mdl'*/
+  'gridshore.c3js.chart',
+  'token.controller',
+  'jwtInterceptor.services',
+  'interceptor.services',
+  'home.controller'
 ])
+
+.constant('SERVER_ADDRESS', 'localhost:9000')
 
 .config(['$urlRouterProvider','$stateProvider','$locationProvider',function($urlRouterProvider, $stateProvider,$locationProvider) {
   $urlRouterProvider.otherwise('/home');
 
   $stateProvider
+      .state('index', {
+          url: '/',
+          templateUrl: "/",
+          module:'public'
+      })
+
+      .state('signin', {
+          url: '/signin',
+          templateUrl: "/signin",
+          module:'public'
+      })
+
+      .state('signup', {
+          url: '/signup',
+          templateUrl: "/signup",
+          module:'public'
+      })
+
       .state('home', {
         url: '/home',
         views: {
-              "content@": {
+            "":{
+                templateUrl: "/home/content",
+                controller: "HomeCtrl",
+                controllerAs:"hc"
+            },
+              "content@home": {
                   templateUrl: "/home/keywords"
+
               }
         },
         module:'private'
       })
 
-      .state('keywords', {
-          url: '/home/keywords/',
+      .state('home.keywords', {
+          url: '/keywords/',
           views: {
-              "content@": {
+              "content": {
                   templateUrl: "/home/keywords"
               }
           },
           module:'private'
       })
 
-      .state('mentions', {
-          url: '/home/mentions/',
+      .state('home.mentions', {
+          url: '/mentions/',
           module:'private',
           views: {
-              "content@": {
+              "content": {
                   templateUrl: "/home/mentions"
               }
           }
       })
 
-      .state('analytics', {
-          url: '/home/analytics/',
+      .state('home.analytics', {
+          url: '/analytics/',
           views: {
-              "content@": {
+              "content@home": {
                   templateUrl: "/home/analytics"
               }
           },
           module:'private'
       })
 
-      .state('settings', {
-          url: '/home/settings/',
+      .state('home.settings', {
+          url: '/settings/',
           views: {
-              "content@": {
+              "content@home": {
                   templateUrl: "/home/settings"
               }
           },
@@ -77,23 +106,22 @@ angular.module('brandmedia', [
             componentHandler.upgradeAllRegistered();
         });
     });
-});
+})
 
-/*
 .run(['$rootScope','jwtHelper','store','$state',function($rootScope,jwtHelper,store,$state){
     $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
-        var token = store.get('jwt');
+       /* var token = store.get('jwt');
         if (token) {
             if (jwtHelper.isTokenExpired(token)){
                 store.remove('jwt');
                 e.preventDefault();
-                $state.go('landing');
+                $state.go('index');
             }
         }else{
-            if(toState.module ==='private'){
+            if(toState.module === 'private'){
                 e.preventDefault();
-                $state.go('landing');
+                $state.go('index');
             }
-        }
+        }*/
     })
-}]);*/
+}]);

@@ -13,6 +13,7 @@
     </head>
     <body>
         @content
+
         <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
         <link defer rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" >
         <script defer src="@routes.Assets.versioned("bower_components/c3/c3.min.js")"></script>
@@ -24,8 +25,10 @@
         <script defer src="@routes.Assets.versioned("bower_components/a0-angular-storage/dist/angular-storage.min.js")"></script>
         <script defer src="@routes.Assets.versioned("bower_components/angular-jwt/dist/angular-jwt.min.js")"></script>
         <script defer src="@routes.Assets.versioned("bower_components/c3-angular/c3-angular.min.js")"></script>
-@*        <link  rel="stylesheet" media="screen" href="@routes.Assets.versioned("bower_components/material-design-lite/material.min.css")" >
-        <script defer src="@routes.Assets.versioned("bower_components/material-design-lite/material.min.js")"></script>*@
         <script defer src="@routes.Assets.versioned("javascripts/app.js")"></script>
+        <script defer src="@routes.Assets.versioned("javascripts/components/JWT/token.controller.js")"></script>
+        <script defer src="@routes.Assets.versioned("javascripts/components/home/home.controller.js")"></script>
+        <script defer src="@routes.Assets.versioned("javascripts/components/http-interceptor/jwtInterceptor-services.js")"></script>
+        <script defer src="@routes.Assets.versioned("javascripts/components/http-interceptor/interceptor-services.js")"></script>
     </body>
 </html>

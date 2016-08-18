@@ -6,7 +6,7 @@ import forms.Forms
 import modules.Authentication.AuthHandler
 import play.api.cache.Cached
 import play.api.mvc._
-
+import pdi.jwt._
 
 /**
   * Created by Matija on 2.8.2016..
@@ -19,9 +19,12 @@ class AuthController @Inject()(cache: Cached, auth: AuthHandler, forms: Forms) e
         BadRequest(views.html.homepage.authentication.signUp(formWithErrors))
       },
       data => {
-        println("ok")
-        auth.saveUser(data)
-        Redirect("/signup")
+        /*Redirect("/home").addingToJwtSession("user",auth.saveUser(data))*/
+        val user = auth.saveUser(data);
+        val jwt = JwtSession() + ("user", user)
+        /*Ok(views.html.userpanel.panel(jwt.serialize)).withJwtSession(jwt)*/
+        //Redirect("/home").withJwtSession(jwt)
+        Redirect(controllers.routes.PanelController.panel(jwt.serialize)).withJwtSession(jwt)
       }
     )
   }

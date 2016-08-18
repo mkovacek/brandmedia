@@ -22,7 +22,7 @@ case class AuthHandler @Inject()(userDAO: UserDAO){
       case None => true
     }
   }
-  def saveUser(data: UserForm) = {
+  def saveUser(data: UserForm): User = {
     //generiraj hash i paralelno s userDetails to pokreni
     val userDetails = UserDetails(data.name, data.surname)
     val userDetailsId = Await.result(userDAO.insertUserDetails(userDetails),1 second).id
@@ -30,6 +30,7 @@ case class AuthHandler @Inject()(userDAO: UserDAO){
     val savedUser = Await.result(userDAO.insertUser(user),1 second) //stavi izvršenje u ekstra varijablu u međuvremenu napravi jwt i onda stavi u blok, zaprvo niti netreba blokirati
     //jwt
     println(savedUser)
+    savedUser
     /*   val user = User(data.email,data.password,1,2,userDetails.id)*/
   }
 
