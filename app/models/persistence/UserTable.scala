@@ -1,9 +1,11 @@
 package models.persistence
+
 import models.entities.User
 import slick.driver.MySQLDriver.api._
 
 /**
   * Created by Matija on 16.8.2016..
+  * Class for User entity <=> DB user table connection
   */
 class UserTable(tag : Tag) extends Table[User](tag, "user") {
   def id = column[Long]("id", O.PrimaryKey, O.AutoInc)

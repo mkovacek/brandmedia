@@ -1,12 +1,12 @@
 package models.persistence
 
 import java.sql.Date
-
 import models.entities.Mention
 import slick.driver.MySQLDriver.api._
 
 /**
   * Created by Matija on 16.8.2016..
+  * Class for Mention entity <=> DB mention table connection
   */
 class MentionTable(tag : Tag) extends Table[Mention](tag, "mention") {
   def id = column[Long]("id", O.PrimaryKey, O.AutoInc)

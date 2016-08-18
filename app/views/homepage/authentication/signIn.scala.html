@@ -1,34 +1,67 @@
+@(form: play.api.data.Form[forms.SignIn])
 @main("Brandmedia") {
     <div id="index" class="layout-transparent mdl-layout mdl-js-layout mdl-layout--fixed-header">
         @views.html.homepage.header()
         <main class="mdl-layout__content">
             <div class="mdl-grid">
                 <div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-offset-desktop mdl-cell--10-col-tablet mdl-cell--4-col-phone">
-                    <form id="signIn_Form" action="#">
-                        <div class="mdl-card mdl-card--width mdl-card--image">
-                            <div class="mdl-card__title">
-                                <h2 class="mdl-card__title-text">Sign In</h2>
-                            </div>
-                            <div class="mdl-card__supporting-text">
+                @helper.form(action = routes.AuthController.signIn()) {
+                    <div class="mdl-card mdl-card--width mdl-card--image">
+                        <div class="mdl-card__title">
+                            <h2 class="mdl-card__title-text">Sign In</h2>
+                        </div>
+                        <div class="mdl-card__supporting-text">
+                            @if(form.error("email").getOrElse("") != ""){
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--10-col-desktop  mdl-cell--1-offset-desktop mdl-cell--10-col-phone is-invalid is-dirty">
+                            }else{
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--10-col-desktop  mdl-cell--1-offset-desktop mdl-cell--10-col-phone">
-                                    <input class="mdl-textfield__input" type="text" id="signIn_email" name="signIn_email" pattern="^[_a-z0-9-+]+(\.[_a-z0-9-+]+)*@@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$">
-                                    <label class="mdl-textfield__label" for="signIn_email">Email</label>
+                            }
+                                    <input class="mdl-textfield__input" type="text" id="email" name="email" pattern="^[_a-z0-9-+]+(\.[_a-z0-9-+]+)*@@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$">
+                                    <label class="mdl-textfield__label" for="email">Email</label>
                                     <span class="mdl-textfield__error">Only email is allowed!</span>
                                 </div>
-                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--10-col-desktop  mdl-cell--1-offset-desktop mdl-cell--10-col-phone">
-                                    <input class="mdl-textfield__input" type="password" id="signIn_Password" name="signIn_Password" >
-                                    <label class="mdl-textfield__label" for="signIn_Password">Password</label>
+
+                            @if(form.error("password").getOrElse("") != ""){
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--10-col-desktop  mdl-cell--1-offset-desktop mdl-cell--10-col-phone is-invalid is-dirty">
+                                    <input class="mdl-textfield__input" type="password" id="password" name="password" >
+                                    <label class="mdl-textfield__label" for="password">Password</label>
+                                    <span class="mdl-textfield__error">Password is required!</span>
                                 </div>
-                            </div>
-                            <div class="mdl-card__actions mdl-card--border">
-                                <div class="mdl-grid">
-                                    <div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--9-offset-desktop mdl-cell--2-col-phone mdl-cell--2-offset-phone ">
-                                        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Submit</a>
+                            }else{
+                                @if(form.hasErrors){
+                                    @form.errors.map{e=>
+                                        @if(e.message == "wrongCredentials"){
+                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--10-col-desktop  mdl-cell--1-offset-desktop mdl-cell--10-col-phone is-invalid is-dirty">
+                                                <input class="mdl-textfield__input" type="password" id="password" name="password">
+                                                <label class="mdl-textfield__label" for="password">Password</label>
+                                                <span class="mdl-textfield__error">Wrong credentials!</span>
+                                            </div>
+                                        }else{
+                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--10-col-desktop  mdl-cell--1-offset-desktop mdl-cell--10-col-phone">
+                                                <input class="mdl-textfield__input" type="password" id="password" name="password">
+                                                <label class="mdl-textfield__label" for="password">Password</label>
+                                                <span class="mdl-textfield__error">Password is required!</span>
+                                            </div>
+                                        }
+                                    }
+                                }else{
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--10-col-desktop  mdl-cell--1-offset-desktop mdl-cell--10-col-phone">
+                                        <input class="mdl-textfield__input" type="password" id="password" name="password" value="@form("password").value.getOrElse("")" >
+                                        <label class="mdl-textfield__label" for="password">Password</label>
+                                        <span class="mdl-textfield__error">Password is required!</span>
                                     </div>
+                                }
+                            }
+                        </div>
+                        <div class="mdl-card__actions mdl-card--border">
+                            <div class="mdl-grid">
+                                <div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--9-offset-desktop mdl-cell--2-col-phone mdl-cell--2-offset-phone ">
+                                    <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" type="submit">Submit</button>
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
+                }
                 </div>
             </div>
         </main>

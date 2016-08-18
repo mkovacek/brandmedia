@@ -10,27 +10,44 @@ import pdi.jwt._
 
 /**
   * Created by Matija on 2.8.2016..
+  * Controller for Authentication actions
   */
 @Singleton
 class AuthController @Inject()(cache: Cached, auth: AuthHandler, forms: Forms) extends Controller{
+
+  /*
+  * Method for user registration
+  * */
   def signUp = Action {implicit request =>
     forms.signUpForm.bindFromRequest.fold(
       formWithErrors => {
         BadRequest(views.html.homepage.authentication.signUp(formWithErrors))
       },
       data => {
-        /*Redirect("/home").addingToJwtSession("user",auth.saveUser(data))*/
-        val user = auth.saveUser(data);
-        val jwt = JwtSession() + ("user", user)
-        /*Ok(views.html.userpanel.panel(jwt.serialize)).withJwtSession(jwt)*/
-        //Redirect("/home").withJwtSession(jwt)
+        val jwt = JwtSession() + ("user", auth.saveUser(data))
         Redirect(controllers.routes.PanelController.panel(jwt.serialize)).withJwtSession(jwt)
       }
     )
   }
-  def signIn = Action {
-    Redirect("/home")
+
+  /*
+  * Method for user login
+  * */
+  def signIn =  Action {implicit request =>
+    forms.signInForm.bindFromRequest.fold(
+      formWithErrors => {
+        BadRequest(views.html.homepage.authentication.signIn(formWithErrors))
+      },
+      data => {
+        val jwt = JwtSession() + ("user", auth.authenticate(data))
+        Redirect(controllers.routes.PanelController.panel(jwt.serialize)).withJwtSession(jwt)
+      }
+    )
   }
+
+  /*
+   * Method for user logout
+   * */
   def logout =  Action {
     //remove user session
     Redirect("/")
