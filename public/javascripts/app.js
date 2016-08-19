@@ -5,9 +5,7 @@ angular.module('brandmedia', [
   'ui.router',
   'angularUtils.directives.dirPagination',
   'angular-storage',
-  'angular-jwt',
   'gridshore.c3js.chart',
-  'jwtInterceptor.services',
   'interceptor.services',
   'home.controller',
   'settings.services',
@@ -24,6 +22,12 @@ angular.module('brandmedia', [
       .state('index', {
           url: '/',
           templateUrl: "/",
+          module:'public'
+      })
+
+      .state('indexLogIn', {
+          url: '/index',
+          templateUrl: "/index",
           module:'public'
       })
 

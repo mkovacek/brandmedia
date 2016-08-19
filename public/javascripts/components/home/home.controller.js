@@ -9,7 +9,10 @@
     HomeCtrl.$inject = ['$window','store'];
 
     function HomeCtrl($window,store){
-        if($window.token!=="none") store.set("jwt",$window.token);
+        if($window.token!=="none"){
+            store.set("jwt",$window.token);
+            this.token = $window.token
+        }
     }
 
 })();

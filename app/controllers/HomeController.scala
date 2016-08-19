@@ -23,6 +23,15 @@ class HomeController @Inject() (cache: Cached, forms: Forms) extends Controller 
   }
 
   /*
+* Method for rendering index html page for loged user
+* */
+  def indexLogIn() = cache("homePageLogIn"){
+    Action {
+      Ok(views.html.homepage.indexLogIn())
+    }
+  }
+
+  /*
   * Method for rendering sign in html page
   * */
   def signIn = cache("signInPage"){
