@@ -6,11 +6,10 @@
 
     angular.module('home.controller', []).controller('HomeCtrl', HomeCtrl);
 
-    //HomeCtrl.$inject = ['UserSession','$state'];
+    HomeCtrl.$inject = ['$window','store'];
 
-    function HomeCtrl(){
-        /*console.log("HomeCtrl");
-        console.log("token: "+localStorage.getItem("jwt"));*/
+    function HomeCtrl($window,store){
+        if($window.token!=="none") store.set("jwt",$window.token);
     }
 
 })();

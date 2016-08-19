@@ -1,12 +1,12 @@
 package controllers
 
 import javax.inject.{Inject, Singleton}
-
 import forms.Forms
 import modules.Authentication.AuthHandler
 import play.api.cache.Cached
 import play.api.mvc._
 import pdi.jwt._
+import play.api.libs.json.Json
 
 /**
   * Created by Matija on 2.8.2016..
@@ -49,7 +49,6 @@ class AuthController @Inject()(cache: Cached, auth: AuthHandler, forms: Forms) e
    * Method for user logout
    * */
   def logout =  Action {
-    //remove user session
-    Redirect("/")
+    Ok(Json.obj("success" -> "successfully logout")).withoutJwtSession
   }
 }

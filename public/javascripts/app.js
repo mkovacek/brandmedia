@@ -7,13 +7,15 @@ angular.module('brandmedia', [
   'angular-storage',
   'angular-jwt',
   'gridshore.c3js.chart',
-  'token.controller',
   'jwtInterceptor.services',
   'interceptor.services',
-  'home.controller'
+  'home.controller',
+  'settings.services',
+  'settings.controller'
+
 ])
 
-.constant('SERVER_ADDRESS', 'localhost:9000')
+.constant('SERVER_ADDRESS', 'api') //change this
 
 .config(['$urlRouterProvider','$stateProvider','$locationProvider',function($urlRouterProvider, $stateProvider,$locationProvider) {
   $urlRouterProvider.otherwise('/home');
@@ -41,14 +43,12 @@ angular.module('brandmedia', [
         url: '/home',
         views: {
             "":{
-                templateUrl: "/home/content",
-                controller: "HomeCtrl",
-                controllerAs:"hc"
+                templateUrl: "/home/content"
             },
-              "content@home": {
-                  templateUrl: "/home/keywords"
+            "content@home": {
+                templateUrl: "/home/keywords"
 
-              }
+            }
         },
         module:'private'
       })
@@ -93,35 +93,27 @@ angular.module('brandmedia', [
           module:'private'
       })
 
-
       $locationProvider.html5Mode({
           enabled: true,
           requireBase: false
       });
 }])
 
-.run(function($rootScope, $location, $timeout) {
+.run(function($rootScope, $location, $timeout, store,$state) {
     $rootScope.$on('$viewContentLoaded', function() {
         $timeout(function() {
             componentHandler.upgradeAllRegistered();
         });
     });
-})
 
-.run(['$rootScope','jwtHelper','store','$state',function($rootScope,jwtHelper,store,$state){
-    $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
-       /* var token = store.get('jwt');
-        if (token) {
-            if (jwtHelper.isTokenExpired(token)){
-                store.remove('jwt');
-                e.preventDefault();
-                $state.go('index');
-            }
-        }else{
-            if(toState.module === 'private'){
-                e.preventDefault();
-                $state.go('index');
-            }
-        }*/
-    })
-}]);
+    $rootScope.$on('$locationChangeStart', function (event, newUrl, oldUrl) {
+        var token = store.get('jwt');
+        var newpath = newUrl.split("/")[3];
+        if(token === null && (newpath !== "signin" && newpath !== "signup" && newpath !== "")){
+            event.preventDefault();
+            $state.go('index');
+        }
+
+    });
+});
+

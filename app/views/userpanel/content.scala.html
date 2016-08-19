@@ -2,7 +2,7 @@
     <header class="mdl-layout__header mdl-layout__header--transparent layout-transparent">
     <div class="mdl-layout__header-row">
         <div class="mdl-layout-spacer"></div>
-        <a class="mdl-layout-title mdl-navigation__link logo-text logo-text--size mdl-color-text--white" href="@routes.HomeController.index("")">BRANDMEDIA</a> @* ng-click and change url href in browser *@
+        <a class="mdl-layout-title mdl-navigation__link logo-text logo-text--size mdl-color-text--white" href="@routes.HomeController.index("")">BRANDMEDIA</a>
     </div>
 </header>
     <div class="bm-drawer mdl-layout__drawer mdl-color-text--blue-grey-50">
@@ -14,9 +14,9 @@
                     <i class="material-icons" role="presentation">arrow_drop_down</i>
                     <span class="visuallyhidden">Accounts</span>
                 </button>
-                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
+                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn" ng-controller="SettingsCtrl as sc">
                     <li class="mdl-menu__item"><i class="material-icons">account_box</i><a class="mdl-navigation__link mdl-color-text--black" ui-sref=".settings">&nbsp;SETTINGS</a></li>
-                    <li class="mdl-menu__item"><i class="material-icons">power_settings_new</i><a class="mdl-navigation__link mdl-color-text--black" href="@routes.AuthController.logout()">&nbsp;LOG OUT</a></li>
+                    <li class="mdl-menu__item"><i class="material-icons">power_settings_new</i><a class="mdl-navigation__link mdl-color-text--black"  ng-click="sc.logout()">&nbsp;LOG OUT</a></li>
                 </ul>
             </div>
         </header>
