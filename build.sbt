@@ -16,6 +16,10 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-slick" % "2.0.0",
   "com.typesafe.play" %% "play-slick-evolutions" % "2.0.0",
   "com.github.t3hnar" %% "scala-bcrypt" % "2.6",
-  "com.pauldijou" %% "jwt-play" % "0.8.0"
+  "com.pauldijou" %% "jwt-play" % "0.8.0",
+  "com.hunorkovacs" %% "koauth" % "1.1.0",
+  "com.typesafe.akka" %% "akka-stream-experimental" % "1.0",
+  "com.typesafe.akka" %% "akka-http-experimental" % "1.0",
+  "org.json4s" %% "json4s-native" % "3.3.0"
 )
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
