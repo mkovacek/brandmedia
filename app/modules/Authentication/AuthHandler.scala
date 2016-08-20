@@ -47,12 +47,21 @@ case class AuthHandler @Inject()(userDAO: UserDAO){
       case None => false
     }
   }
-
   /*
   * Method for authentication
   * */
   def authenticate(data: SignIn): User = {
     Await.result(userDAO.findByEmail(data.email), 1 second).get
   }
+
+  /*
+  * Method for check user password
+  * */
+/*  def checkPassword(email: String, password:String): Boolean = {
+    Await.result(userDAO.findByEmailemail), 1 second) match {
+      case Some(user) => Bcrypt.validate(oldPassword,user.password)
+      case None => false
+    }
+  }*/
 
 }

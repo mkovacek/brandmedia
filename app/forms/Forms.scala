@@ -38,6 +38,20 @@ class Forms @Inject() (auth: AuthHandler) {
     )(SignIn.apply)(SignIn.unapply)
       .verifying ("wrongCredentials", data => auth.checkCredentials(data))
   )
+
+  /*
+  * Settings form validator
+  * */
+/*  val settingsForm: Form[Settings] = Form(
+    mapping(
+      "name" -> nonEmptyText,
+      "surname" -> nonEmptyText,
+      "email" -> nonEmptyText,
+      "oldPassword" -> nonEmptyText,
+      "newPassword" -> nonEmptyText
+    )(Settings.apply)(Settings.unapply)
+      .verifying ("wrongOldPassword", data => auth.checkPassword(data))
+  )*/
 }
 
 /**
@@ -45,3 +59,5 @@ class Forms @Inject() (auth: AuthHandler) {
   */
 case class SignUp(name: String, surname: String, email: String, password: String, repeatPassword: String)
 case class SignIn(email: String, password: String)
+/*
+case class Settings(name: String, surname: String, email: String, oldPassword: String, newPassword: String)*/

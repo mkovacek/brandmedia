@@ -21,6 +21,7 @@ GET     /home/*any                  controllers.PanelController.panel(any)
 POST    /api/authenticate/signup     controllers.AuthController.signUp
 POST    /api/authenticate/signin     controllers.AuthController.signIn
 POST    /api/authenticate/logout     controllers.AuthController.logout
+POST    /api/settings/               controllers.PanelController.updateSettings
 
 
 # Map static resources from the /public folder to the /assets URL path

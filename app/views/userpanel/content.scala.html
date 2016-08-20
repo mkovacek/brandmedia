@@ -1,3 +1,4 @@
+@(user: models.entities.UserDetails)
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
     <header class="mdl-layout__header mdl-layout__header--transparent layout-transparent">
     <div class="mdl-layout__header-row">
@@ -8,15 +9,15 @@
     <div class="bm-drawer mdl-layout__drawer mdl-color-text--blue-grey-50">
         <header class="bm-drawer-header">
             <div class="bm-avatar-dropdown">
-                <span>Matija Kovaček</span>
+                <span>@user.name @user.surname</span>
                 <div class="mdl-layout-spacer"></div>
                 <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
                     <i class="material-icons" role="presentation">arrow_drop_down</i>
                     <span class="visuallyhidden">Accounts</span>
                 </button>
                 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn" ng-controller="SettingsCtrl as sc">
-                    <li class="mdl-menu__item"><i class="material-icons">account_box</i><a class="mdl-navigation__link mdl-color-text--black" ui-sref=".settings">&nbsp;SETTINGS</a></li>
-                    <li class="mdl-menu__item"><i class="material-icons">power_settings_new</i><a class="mdl-navigation__link mdl-color-text--black"  ng-click="sc.logout()">&nbsp;LOG OUT</a></li>
+                    @*<li class="mdl-menu__item"><i class="material-icons">account_box</i><a class="mdl-navigation__link mdl-color-text--black" ui-sref=".settings">&nbsp;SETTINGS</a></li>*@
+                    <li class="mdl-menu__item"><i class="material-icons">power_settings_new</i><a class="mdl-navigation__link mdl-color-text--black" ng-click="sc.logout()">&nbsp;LOG OUT</a></li>
                 </ul>
             </div>
         </header>

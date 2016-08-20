@@ -13,9 +13,9 @@ angular.module('brandmedia', [
 
 ])
 
-.constant('SERVER_ADDRESS', 'api') //change this
+.constant('SERVER_ADDRESS', 'api')
 
-.config(['$urlRouterProvider','$stateProvider','$locationProvider',function($urlRouterProvider, $stateProvider,$locationProvider) {
+.config(['$urlRouterProvider','$stateProvider','$locationProvider',function($urlRouterProvider, $stateProvider, $locationProvider) {
   $urlRouterProvider.otherwise('/home');
 
   $stateProvider
@@ -87,15 +87,17 @@ angular.module('brandmedia', [
           module:'private'
       })
 
-      .state('home.settings', {
+/*      .state('home.settings', {
           url: '/settings/',
           views: {
               "content@home": {
-                  templateUrl: "/home/settings"
+                  templateUrl: "/home/settings",
+                  controller: "SettingsCtrl",
+                  controllerAs: "sc"
               }
           },
           module:'private'
-      })
+      })*/
 
       $locationProvider.html5Mode({
           enabled: true,

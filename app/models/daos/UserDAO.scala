@@ -59,4 +59,13 @@ class UserDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider){
 /*  def update(id: Long,updatedUser: User) = {
     user.filter(_.id === id).map(u => (u.email, u.details.take(), u.details.surname, u.password))
   }*/
+
+  /*USER DETAILS*/
+
+  /*
+  * Method fetch user details by id
+  * */
+  def findUserDetailsById(id: Long): Future[Option[UserDetails]] = {
+    db.run(userDetails.filter(_.id === id).result.headOption)
+  }
 }
