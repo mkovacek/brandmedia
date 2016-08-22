@@ -1,7 +1,7 @@
 package modules.Twitter
 
 import play.api.libs.oauth._
-import javax.inject.{Inject,Singleton}
+import javax.inject.Inject
 import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, KillSwitches}
 import play.api.libs.ws._
@@ -9,30 +9,23 @@ import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 import org.json4s._
 import org.json4s.native.JsonMethods._
+import play.api.Configuration
 
 /**
   * Created by Matija on 20.8.2016..
   */
 
-@Singleton
-class Twitter @Inject() (name: String,ws: WSClient, killSwitch: KillSwitch) (implicit ec:ExecutionContext) {
-  private val twitterConsumerKey = "do213KmGfaxKfBDRpp0bL7ebp"
-  private val twitterConsumerSecret = "6SF6zxkSIewbKUaxGYQO4zGL1eCcN0TWaA2q8z77DJhDYnksvL"
-  private val accessTokenKey = "166725756-RTkRyo5nW7CSgMEMpgxYnHxI8R81R4ZsbtT2NQBd"
-  private val accessTokenSecret = "kmNgVXtJFbiMEtUgzS83PDfdnppwPi2LA8SBQoBA8UFmV"
+class Twitter @Inject() (ws: WSClient, killSwitch: KillSwitch, conf: Configuration) (implicit ec:ExecutionContext) {
   private val url = "https://stream.twitter.com/1.1/statuses/filter.json"
-
-  val consumerKey: ConsumerKey = ConsumerKey(twitterConsumerKey, twitterConsumerSecret)
-  val requestToken: RequestToken = RequestToken(accessTokenKey, accessTokenSecret)
-
-  val urlPath = "https://api.twitter.com/1.1/search/tweets.json"
+  private val consumerKey: ConsumerKey = ConsumerKey(conf.underlying.getString("twitter.consumerKey"), conf.underlying.getString("twitter.consumerSecret"))
+  private val requestToken: RequestToken = RequestToken(conf.underlying.getString("twitter.accessTokenKey"), conf.underlying.getString("twitter.accessTokenSecret"))
   implicit val formats = DefaultFormats
-
   implicit val system = ActorSystem()
   implicit val materializer = ActorMaterializer()
 
-  def getTweets(query: String): Unit ={
-    val sharedKillSwitch = KillSwitches.shared(query)
+
+  def getTweets(query: String, streamId: String) = Future {
+    val sharedKillSwitch = KillSwitches.shared(streamId)
     killSwitch.add(query,sharedKillSwitch)
     ws.url(url)
         .sign(OAuthCalculator(consumerKey, requestToken))
@@ -58,12 +51,12 @@ class Twitter @Inject() (name: String,ws: WSClient, killSwitch: KillSwitch) (imp
         }
   }
 
-  def stopStream(name: String) ={
+  def stopStream(name: String) = Future {
     val sharedKillSwitch = killSwitch.get(name)
     sharedKillSwitch.shutdown()
   }
 }
 
 object Twitter {
-  def apply(name: String, ws: WSClient,killSwitch: KillSwitch)(implicit ec:ExecutionContext): Twitter = new Twitter(name,ws,killSwitch)
+  def apply(ws: WSClient,killSwitch: KillSwitch,conf: Configuration)(implicit ec:ExecutionContext): Twitter = new Twitter(ws,killSwitch,conf)
 }

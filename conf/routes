@@ -9,23 +9,24 @@ GET     /signin                     controllers.HomeController.signIn
 GET     /signup                     controllers.HomeController.signUp
 #user panel
 GET     /home                       controllers.PanelController.panel(any="none")
-#for angular
 GET     /home/content               controllers.PanelController.content
 GET     /home/keywords              controllers.PanelController.keywords
 GET     /home/mentions              controllers.PanelController.mentions
 GET     /home/analytics             controllers.PanelController.analytics
-GET     /home/settings              controllers.PanelController.settings
+#GET     /home/settings              controllers.PanelController.settings
 GET     /home/*any                  controllers.PanelController.panel(any)
 
 #api
 POST    /api/authenticate/signup     controllers.AuthController.signUp
 POST    /api/authenticate/signin     controllers.AuthController.signIn
 POST    /api/authenticate/logout     controllers.AuthController.logout
-POST    /api/settings/               controllers.PanelController.updateSettings
+GET     /api/keywords/all            controllers.PanelController.keywordsList
+GET     /api/keywords/active         controllers.PanelController.activeKeywordsList
+POST    /api/keywords/add            controllers.PanelController.addKeyword
+POST    /api/tweets/start            controllers.PanelController.updateAndStartSearch
+POST    /api/tweets/stop             controllers.PanelController.updateAndStopSearch
+#POST    /api/settings/               controllers.PanelController.updateSettings
 
-#tweets
-GET    /tweets/*query                controllers.PanelController.tweets(query)
-GET    /stop/*name                   controllers.PanelController.stop(name)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

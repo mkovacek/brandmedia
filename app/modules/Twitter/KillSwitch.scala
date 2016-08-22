@@ -1,9 +1,10 @@
 package modules.Twitter
+
 import javax.inject.Singleton
-
 import akka.stream.SharedKillSwitch
-
+import play.api.cache.CacheApi
 import scala.collection.immutable.HashMap
+
 /**
   * Created by Matija on 21.8.2016..
   */

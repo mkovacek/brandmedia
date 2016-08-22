@@ -9,13 +9,16 @@ angular.module('brandmedia', [
   'interceptor.services',
   'home.controller',
   'settings.services',
-  'settings.controller'
-
+  'settings.controller',
+  'keywords.services',
+  'keywords.controller',
+  'mentions.controller',
+  'analytics.controller'
 ])
 
-.constant('SERVER_ADDRESS', 'api')
+.constant('SERVER_ADDRESS', 'api') //change this
 
-.config(['$urlRouterProvider','$stateProvider','$locationProvider',function($urlRouterProvider, $stateProvider, $locationProvider) {
+.config(['$urlRouterProvider','$stateProvider','$locationProvider',function($urlRouterProvider, $stateProvider,$locationProvider) {
   $urlRouterProvider.otherwise('/home');
 
   $stateProvider
@@ -87,7 +90,7 @@ angular.module('brandmedia', [
           module:'private'
       })
 
-/*      .state('home.settings', {
+      .state('home.settings', {
           url: '/settings/',
           views: {
               "content@home": {
@@ -97,7 +100,7 @@ angular.module('brandmedia', [
               }
           },
           module:'private'
-      })*/
+      })
 
       $locationProvider.html5Mode({
           enabled: true,
@@ -109,7 +112,8 @@ angular.module('brandmedia', [
     $rootScope.$on('$viewContentLoaded', function() {
         $timeout(function() {
             componentHandler.upgradeAllRegistered();
-        });
+            //upgradeDom();
+        },0);
     });
 
     $rootScope.$on('$locationChangeStart', function (event, newUrl, oldUrl) {

@@ -5,20 +5,16 @@ import javax.inject.Inject
 import models.entities.User
 import modules.Panel.PanelHandler
 import modules.Security.Secured
-import modules.Twitter.{KillSwitch, Twitter}
 import play.api.mvc._
 import pdi.jwt._
-import play.api.libs.json.Json
-import play.api.libs.oauth.{ConsumerKey, OAuthCalculator, RequestToken}
-import play.api.libs.ws._
+import play.api.cache.Cached
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.ExecutionContext
+
 /**
   * Created by Matija on 3.8.2016..
   * Controller for rendering html parts of user panel page
   */
-class PanelController @Inject() (panel: PanelHandler, ws: WSClient,killSwitch: KillSwitch) extends Controller with Secured {
+class PanelController @Inject() (cache: Cached, panel: PanelHandler) extends Controller with Secured {
 
   /*
   * Method for rendering panel layout view
@@ -32,85 +28,67 @@ class PanelController @Inject() (panel: PanelHandler, ws: WSClient,killSwitch: K
   * */
   def content = Authenticated {implicit request =>
     val user = request.jwtSession.getAs[User]("user").get
-    val userDetails = panel.getUserDetails(user.id)
-    Ok(views.html.userpanel.content(userDetails))
+    Ok(views.html.userpanel.content(panel.getUserDetails(user.id)))
   }
 
   /*
   * Method for rendering keywords view
   * */
-  def keywords = Authenticated {
+  def keywords = Authenticated {  //cache
     Ok(views.html.userpanel.keywords())
   }
 
   /*
   * Method for rendering mentions view
   * */
-  def mentions = Authenticated {
+  def mentions = Authenticated { //cache
     Ok(views.html.userpanel.mentions())
   }
 
   /*
   * Method for rendering analytics view
   * */
-  def analytics = Authenticated {
+  def analytics = Authenticated { //cache
     Ok(views.html.userpanel.analytics())
   }
 
+  
   /*
-  * Method for rendering settings view
+  * Method save new keyword and returns  all user keywords as Json
   * */
-
-  def settings = Authenticated { implicit request =>
-    val user = request.jwtSession.getAs[User]("user").get
-    val userDetails = panel.getUserDetails(user.id)
-    Ok(views.html.userpanel.settings(user,userDetails))
+  def addKeyword() = Authenticated(BodyParsers.parse.json) { request =>
+    Ok(panel.saveKeyword(request))
   }
 
   /*
-  * Method for update user settings
+  * Method returns all user keywords as Json
   * */
-  def updateSettings = Authenticated { implicit request =>
-    val user = request.jwtSession.getAs[User]("user").get
-    val data = request.body.asJson.get
-    println(data)
-    //data.name, data.surname, data.oldPassword, data.newPassword
-    //provjeri stari pass ako je ok ažuriraj, vrati ok
-    //ako nije ok vrati error..
-
-
-
-    Ok(Json.obj("success" -> "successfully updated settings"))
-    // zaprimi json, ažuriraj podatke
-    // vrati ok response
-    // angular napravi refresh stranice, da se fetchaju novi podaci
-
-/*    forms.settingsForm.bindFromRequest.fold(
-      formWithErrors => {
-        BadRequest(views.html.userpanel.settings(formWithErrors))
-      },
-      data => {
-        val jwt = JwtSession() + ("user", auth.saveUser(data))
-        Redirect(controllers.routes.PanelController.panel(jwt.serialize)).withJwtSession(jwt)
-      }
-    )
-
-    val userDetails = panel.getUserDetails(user.id)
-    val form = forms.settingsForm.fill(Settings(userDetails.name,userDetails.surname,user.email,"",""))
-    Ok(views.html.userpanel.settings(form))*/
+  def keywordsList() = Authenticated { implicit  request =>
+    Ok(panel.getAllKeywords(request))
   }
 
-  def tweets(query: String) = Action { implicit  request =>
-    Twitter(query,ws,killSwitch).getTweets(query)
-    //twitter.getTweets(query)
-    Ok("Tweets")
+  /*
+  * Method returns all user active keywords as Json
+  * */
+  def activeKeywordsList() = Authenticated { implicit  request =>
+    Ok(panel.getActiveKeywords(request))
   }
 
-  def stop(name: String) = Action { implicit  request =>
-    Twitter(name,ws,killSwitch).stopStream(name)
-    //twitter.stopStream(name)
-    Ok("Stop")
+  /*
+  * Method update keyword update status to active and start twitter stream
+  * */
+  def updateAndStartSearch() = Authenticated(BodyParsers.parse.json) { request =>
+    Ok(panel.updateAndStartStream(request))
   }
+
+  /*
+  * Method update keyword update status to inactive and stop twitter stream
+  * */
+  def updateAndStopSearch() = Authenticated(BodyParsers.parse.json) { request =>
+    Ok(panel.updateAndStopStream(request))
+  }
+
+
 
 }
 

@@ -1,9 +1,30 @@
-<div class="mdl-grid">
-   @keywordsList()
+<div class="mdl-grid" ng-controller="MentionsCtrl as mc">
+    <div class="mdl-cell mdl-cell--3-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone" >
+        <div class="mdl-card mdl-card--width--full mdl-shadow--2dp">
+            <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">Select keyword</h2>
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <ul class="mdl-list">
+                    <li class="mdl-list__item"  ng-repeat="keyword in mc.activeKeywordList track by $index">
+                        <span class="mdl-list__item-primary-content">
+                            <i class="material-icons  mdl-list__item-icon">hearing</i>
+                            {{keyword.keyword}}
+                        </span>
+                        <span class="mdl-list__item-secondary-action">
+                            <label class="bm-list-radio mdl-radio mdl-js-radio mdl-js-ripple-effect" for="list-option-{{keyword.id}}">
+                                <input type="radio" id="list-option-{{keyword.id}}" class="mdl-radio__button" name="options" value="{{keyword.id}}" ng-click="mc.getMentions(keyword.id)"  />
+                            </label>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
    <div class="mdl-cell mdl-cell--9-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
-      <div class="mdl-card mdl-card--width--full mdl-shadow--2dp">
+      <div ng-if="mc.show" class="mdl-card mdl-card--width--full mdl-shadow--2dp">
          <div class="mdl-card__title">
-            <h2 class="mdl-card__title-text">Let see what people say about your brand</h2>
+            <h2 class="mdl-card__title-text">What people say about your brand</h2>
          </div>
          <div class="mdl-card__actions mdl-card--border">
             <ul class="mdl-list">
