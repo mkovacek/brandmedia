@@ -52,7 +52,7 @@ class PanelController @Inject() (cache: Cached, panel: PanelHandler) extends Con
     Ok(views.html.userpanel.analytics())
   }
 
-  
+
   /*
   * Method save new keyword and returns  all user keywords as Json
   * */

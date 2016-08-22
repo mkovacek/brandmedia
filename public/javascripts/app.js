@@ -109,11 +109,20 @@ angular.module('brandmedia', [
 }])
 
 .run(function($rootScope, $location, $timeout, store,$state) {
-    $rootScope.$on('$viewContentLoaded', function() {
-        $timeout(function() {
-            componentHandler.upgradeAllRegistered();
-            //upgradeDom();
-        },0);
+    var mdlUpgradeDom = false;
+    setInterval(function() {
+        if (mdlUpgradeDom) {
+            componentHandler.upgradeDom();
+            mdlUpgradeDom = false;
+        }
+    }, 200);
+
+    var observer = new MutationObserver(function () {
+        mdlUpgradeDom = true;
+    });
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
     });
 
     $rootScope.$on('$locationChangeStart', function (event, newUrl, oldUrl) {
@@ -125,5 +134,7 @@ angular.module('brandmedia', [
         }
 
     });
+
 });
+
 
