@@ -1,19 +1,16 @@
 <div class="mdl-grid" ng-controller="MentionsCtrl as mc">
     <div class="mdl-cell mdl-cell--3-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone" >
-        <div class="mdl-card mdl-card--width--full mdl-shadow--2dp">
+        <div class="mdl-card mdl-card--width--full mdl-shadow--3dp">
             <div class="mdl-card__title">
                 <h2 class="mdl-card__title-text">Select keyword</h2>
             </div>
             <div class="mdl-card__actions mdl-card--border">
                 <ul class="mdl-list">
                     <li class="mdl-list__item"  ng-repeat="keyword in mc.activeKeywordList track by $index">
-                        <span class="mdl-list__item-primary-content">
-                            <i class="material-icons  mdl-list__item-icon">hearing</i>
-                            {{keyword.keyword}}
-                        </span>
+                        <span class="mdl-list__item-primary-content"><i class="material-icons  mdl-list__item-icon">hearing</i>{{keyword.keyword}}</span>
                         <span class="mdl-list__item-secondary-action">
                             <label class="bm-list-radio mdl-radio mdl-js-radio mdl-js-ripple-effect" for="list-option-{{keyword.id}}">
-                                <input type="radio" id="list-option-{{keyword.id}}" class="mdl-radio__button" name="options" value="{{keyword.id}}" ng-click="mc.getMentions(keyword.id)"  />
+                                <input type="radio" id="list-option-{{keyword.id}}" class="mdl-radio__button" name="options" value="{{keyword.id}}" ng-click="mc.getMentions(keyword)"  />
                             </label>
                         </span>
                     </li>
@@ -28,73 +25,30 @@
          </div>
          <div class="mdl-card__actions mdl-card--border">
             <ul class="mdl-list">
-               <li class="mdl-list__item mdl-list__item--three-line">
-                  <span class="mdl-list__item-primary-content">
-                     <i class="material-icons mdl-list__item-avatar">person</i>
-                     <span><b>Bryan Cranston</b> @@bryan_c</span>
-                     <span class="mdl-list__item-text-body">
-        Bryan Cranston played the role of Walter in Breaking Bad. He is also known
-                        for playing Hal in Malcom in the Middle.
-                     </span>
-                  </span>
-                  <span class="mdl-list__item-secondary-content">
-                     <span class="mdl-list__item-secondary-info">2 minutes ago</span>
-                  </span>
-               </li>
-               <li class="mdl-list__item mdl-list__item--three-line">
-                  <span class="mdl-list__item-primary-content">
-                     <i class="material-icons  mdl-list__item-avatar">person</i>
-                     <span><b>Aaron Paul</b> @@paul_aaron</span>
-                     <span class="mdl-list__item-text-body">
-        Aaron Paul played the role of Jesse in Breaking Bad. He also featured in
-                        the "Need For Speed" Movie.
-                     </span>
-                  </span>
-                  <span class="mdl-list__item-secondary-content">
-                     <span class="mdl-list__item-secondary-info">5 minutes ago</span>
-                  </span>
-               </li>
-               <li class="mdl-list__item mdl-list__item--three-line">
-                  <span class="mdl-list__item-primary-content">
-                     <i class="material-icons  mdl-list__item-avatar">person</i>
-                     <span><b>Bob Odenkirk</b> @@bobo_smrade</span>
-                     <span class="mdl-list__item-text-body">
-        Bob Odinkrik played the role of Saul in Breaking Bad. Due to public fondness for the
-                        character, Bob stars in his own show now, called "Better Call Saul".
-                     </span>
-                  </span>
-                  <span class="mdl-list__item-secondary-content">
-                     <span class="mdl-list__item-secondary-info">8 minutes ago</span>
-                  </span>
-               </li>
-               <li class="mdl-list__item mdl-list__item--three-line">
-                  <span class="mdl-list__item-primary-content">
-                     <i class="material-icons  mdl-list__item-avatar">person</i>
-                     <span><b>Bob Odenkirk</b> @@bobo_smrade</span>
-                     <span class="mdl-list__item-text-body">
-        Bob Odinkrik played the role of Saul in Breaking Bad. Due to public fondness for the
-                        character, Bob stars in his own show now, called "Better Call Saul".
-                     </span>
-                  </span>
-                  <span class="mdl-list__item-secondary-content">
-                     <span class="mdl-list__item-secondary-info">15 minutes ago</span>
-                  </span>
-               </li>
-               <li class="mdl-list__item mdl-list__item--three-line">
-                  <span class="mdl-list__item-primary-content">
-                     <i class="material-icons  mdl-list__item-avatar">person</i>
-                     <span><b>Bob Odenkirk</b> @@bobo_smrade</span>
-                     <span class="mdl-list__item-text-body">
-        Bob Odinkrik played the role of Saul in Breaking Bad. Due to public fondness for the
-                        character, Bob stars in his own show now, called "Better Call Saul".
-                     </span>
-                  </span>
-                  <span class="mdl-list__item-secondary-content">
-                     <span class="mdl-list__item-secondary-info">22 minutes ago</span>
-                  </span>
+                <h4 ng-if="mc.mentionList.length === 0" class="">Nothing yet :(</h4>
+               <li class="mdl-list__item mdl-list__item--three-line" dir-paginate="mention in mc.mentionList | itemsPerPage: mc.pageSize track by $index" current-page="mc.currentPage">
+                  <div class="mdl-cell mdl-cell--10-col">
+                      <span class="mdl-list__item-primary-content">
+                          <img ng-src="{{mention.userImage}}" class="mention__avatar">
+                          <span><b>{{mention.userName}}</b> @@{{mention.userUsername}}</span>
+                          <span class="mdl-list__item-text-body" ng-bind-html="mc.highlight(mention.text)"></span>
+                      </span>
+                  </div>
+                   <div class="mdl-cell mdl-cell--2-col">
+                       <span class="mdl-list__item-secondary-content">
+                           <span class="mdl-list__item-secondary-info" am-time-ago="mention.created"></span>
+                       </span>
+                  </div>
                </li>
             </ul>
          </div>
+          <div class="mdl-card__actions mdl-card--border">
+              <div class="mdl-grid">
+                  <div class="mdl-cell mdl-cell--12-col mdl-typography--text-center">
+                      <dir-pagination-controls boundary-links="true" on-page-change="mc.pageChange(newPageNumber)"></dir-pagination-controls>
+                  </div>
+              </div>
+          </div>
       </div>
    </div>
 </div>

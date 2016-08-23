@@ -88,6 +88,12 @@ class PanelController @Inject() (cache: Cached, panel: PanelHandler) extends Con
     Ok(panel.updateAndStopStream(request))
   }
 
+  /*
+  * Method fetch mentions
+  * */
+  def mentionList() = Authenticated(BodyParsers.parse.json) { request =>
+    Ok(panel.getMentions(request))
+  }
 
 
 }

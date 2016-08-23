@@ -44,4 +44,11 @@ class MentionDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvide
     db.run(mention += newMention)
   }
 
+  /*
+  * Paginated mention fetching by keyword
+  * */
+  def fetchMentions(keywordId: Long, offset: Int, size: Int): Future[Seq[Mention]] = {
+    db.run(mention.filter(_.keywordId === keywordId).sortBy(_.id.desc).drop(offset).take(size).result)
+  }
+
 }

@@ -6,12 +6,14 @@ angular.module('brandmedia', [
   'angularUtils.directives.dirPagination',
   'angular-storage',
   'gridshore.c3js.chart',
+  'angularMoment',
   'interceptor.services',
   'home.controller',
   'settings.services',
   'settings.controller',
   'keywords.services',
   'keywords.controller',
+  'mentions.services',
   'mentions.controller',
   'analytics.controller'
 ])

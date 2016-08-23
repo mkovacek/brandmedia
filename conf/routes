@@ -25,6 +25,7 @@ GET     /api/keywords/active         controllers.PanelController.activeKeywordsL
 POST    /api/keywords/add            controllers.PanelController.addKeyword
 POST    /api/tweets/start            controllers.PanelController.updateAndStartSearch
 POST    /api/tweets/stop             controllers.PanelController.updateAndStopSearch
+POST    /api/mentions/fetch          controllers.PanelController.mentionList
 #POST    /api/settings/               controllers.PanelController.updateSettings
 
 

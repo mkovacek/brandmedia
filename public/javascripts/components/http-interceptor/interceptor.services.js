@@ -10,7 +10,6 @@
             return {
                 'request': function (config) {
                     var token = store.get('jwt');
-                    //console.log("requst: "+config.url+" , "+token);
                     if (token) {
                         config.headers['Authorization'] = token;
                     }
@@ -18,7 +17,6 @@
                 },
                 'response': function (response) {
                     var token = response.headers("Authorization");
-                    //console.log("response: "+token);
                     if(token!==null){
                         store.set('jwt',token);
                     }

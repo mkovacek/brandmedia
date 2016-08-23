@@ -19,13 +19,10 @@
         var that = this;
         this._KeywordsServices.getActiveKeywords().then(function (response) {
             that.activeKeywordList = response;
-        },function(error){
-            console.log("error: "+error);
         })
     }
 
     AnalyticsCtrl.prototype.getAnalytics = function (keywordId) {
-        console.log(keywordId);
         this.show = true;
     }
 

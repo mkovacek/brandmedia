@@ -6,11 +6,12 @@ import models.daos.{KeywordDAO, MentionDAO, UserDAO}
 import models.entities.{Keyword, User, UserDetails}
 import modules.Security.AuthenticatedRequest
 import modules.Twitter.{KillSwitch, Twitter}
-import play.api.libs.json.{JsObject, JsValue, Json}
+import play.api.libs.json.{JsNumber, JsObject, JsValue, Json}
 import play.api.mvc.AnyContent
 import pdi.jwt._
 import play.api.Configuration
 import play.api.libs.ws.WSClient
+
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -97,5 +98,17 @@ class PanelHandler @Inject()(userDAO: UserDAO, keywordDAO: KeywordDAO, mentionDA
   * */
   private def stopStream(streamId: String) = {
     Twitter(ws,killSwitch,conf,mentionDAO).stopStream(streamId)
+  }
+
+  /*
+  * Get keyword mentions
+  * */
+  def getMentions(request: AuthenticatedRequest[JsValue]): JsObject = {
+    val json = request.body.result.get.\("data")
+    val keywordId = json.\("keywordId").as[Long]
+    val offset = json.\("offset").as[Int]
+    val size = json.\("size").as[Int]
+    val mentions = Json.toJson(Await.result(mentionDAO.fetchMentions(keywordId, offset, size), 1 second))
+    Json.obj("meta" -> Json.obj("offset" -> size), "mentions" -> mentions)
   }
 }
