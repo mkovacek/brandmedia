@@ -1,18 +1,16 @@
 package modules.Panel
 
 import javax.inject.Inject
-
 import models.daos.{KeywordDAO, MentionDAO, UserDAO}
 import models.entities.{Keyword, User, UserDetails}
 import modules.Security.AuthenticatedRequest
 import modules.Twitter.{KillSwitch, Twitter}
-import play.api.libs.json.{JsNumber, JsObject, JsValue, Json}
+import play.api.libs.json.{JsObject, JsValue, Json}
 import play.api.mvc.AnyContent
 import pdi.jwt._
 import play.api.Configuration
 import play.api.libs.ws.WSClient
-
-import scala.concurrent.{Await, Future}
+import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
 

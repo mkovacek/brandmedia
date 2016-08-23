@@ -7,17 +7,6 @@ MentionsServices.$inject = ['$q', '$resource', 'SERVER_ADDRESS'];
 
 function MentionsServices($q, $resource, SERVER_ADDRESS) {
 
-    var getAction = $resource('/:url/:type/:action', {
-        url: SERVER_ADDRESS,
-        type: '@type',
-        action: '@action'
-    }, {
-        get: {
-            method: 'GET',
-            isArray: true
-        }
-    });
-
     var postAction = $resource('/:url/:type/:action', {
         url: SERVER_ADDRESS,
         type: '@type',
@@ -31,8 +20,7 @@ function MentionsServices($q, $resource, SERVER_ADDRESS) {
     return {
         fetchMentions: fetchMentions
     };
-
-
+    
     function fetchMentions(data) {
         var q = $q.defer();
         postAction.save({
