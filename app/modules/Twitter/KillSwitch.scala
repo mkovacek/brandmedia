@@ -13,11 +13,13 @@ class KillSwitch {
 
   def add(name: String,killSwitch: SharedKillSwitch) = {
     killSwitchMap += (name -> killSwitch)
+    println(killSwitchMap)
   }
 
   def get(name: String): SharedKillSwitch = {
     val killSwitch = killSwitchMap(name)
     killSwitchMap -= name
+    println(killSwitchMap)
     killSwitch
   }
 }

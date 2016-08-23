@@ -34,6 +34,14 @@ class KeywordDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvide
   }
 
   /*
+  * Method fetch all active keywords
+  * */
+  def allActive(): Future[Seq[Keyword]] = {
+    val ACTIVE = 1
+    db.run(keyword.filter(_.active === ACTIVE).result)
+  }
+
+  /*
   * Method fetch all active keywords by user id
   * */
   def active(id: Long): Future[Seq[Keyword]] = {

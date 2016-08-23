@@ -20,7 +20,7 @@ function MentionsServices($q, $resource, SERVER_ADDRESS) {
     return {
         fetchMentions: fetchMentions
     };
-    
+
     function fetchMentions(data) {
         var q = $q.defer();
         postAction.save({
