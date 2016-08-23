@@ -42,12 +42,14 @@ class KeywordDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvide
   }
 
   /*
-  * Method save new keyword and return all keywords
+  * Method save new keyword and return new keyword and all keywords
   * */
-  def save(newKeyword: Keyword): Future[Seq[Keyword]] = {
-    //val insert = keyword returning keyword.map(_.id) into ((keyword, id) => keyword.copy(id = id))
-    db.run(keyword += newKeyword)
-    db.run(keyword.filter(_.userId === newKeyword.userId).result)
+  def save(newKeyword: Keyword): Future[(Keyword,Seq[Keyword])] = {
+    val insert = keyword returning keyword.map(_.id) into ((keyword, id) => keyword.copy(id = id))
+    for {
+      savedKeyword <- db.run(insert += newKeyword)
+      keywordList <- db.run(keyword.filter(_.userId === newKeyword.userId).result)
+    } yield (savedKeyword,keywordList)
   }
 
   /*

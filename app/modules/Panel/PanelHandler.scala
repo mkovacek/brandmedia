@@ -34,7 +34,10 @@ class PanelHandler @Inject()(userDAO: UserDAO, keywordDAO: KeywordDAO, mentionDA
     val user = request.jwtSession.getAs[User]("user").get
     val keyword = request.body.result.get.\("keyword").as[String]
     val ACTIVE = 1
-    Json.toJson(Await.result(keywordDAO.save(Keyword(keyword,ACTIVE,user.id)), 1 second))
+    val (savedKeyword, keywordList) = Await.result(keywordDAO.save(Keyword(keyword,ACTIVE,user.id)), 1 second)
+    val streamId = savedKeyword.id.toString + "-" + user.id.toString
+    this.startStream(savedKeyword.id,savedKeyword.keyword,streamId)
+    Json.toJson(keywordList)
   }
 
   /*
