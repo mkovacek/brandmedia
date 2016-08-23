@@ -13,22 +13,12 @@
         this.keywordList = {};
         this._KeywordsServices = KeywordsServices;
         this.getKeywordList();
-        /*var upgrade = window.localStorage.getItem('upgrade-keyword');
-        console.log(upgrade);
-        componentHandler.upgradeAllRegistered();
-        if(!upgrade){
-            console.log("jej");
-            window.localStorage.setItem('upgrade-keyword',true);
-
-        }*/
     }
 
     KeywordsCtrl.prototype.getKeywordList = function () {
         var that = this;
         this._KeywordsServices.getAllKeywords().then(function (response) {
             that.keywordList = response;
-        },function(error){
-            console.log("error: "+error);
         })
     }
 
@@ -39,10 +29,17 @@
             this._KeywordsServices.addKeywords(this.keyword).then(function (response) {
                 that.keyword = '';
                 that.keywordList = response;
-            },function(error){
-                console.log("error: "+error);
             })
         }
+    }
+
+    KeywordsCtrl.prototype.changeStatus = function (keyword) {
+        var data = {
+            keyword : keyword.keyword,
+            keywordId : keyword.id,
+            active : keyword.active
+        };
+        keyword.active === 1 ? this._KeywordsServices.activateKeywordAndStartStream(data) : this._KeywordsServices.deactivateKeywordAndStopStream(data)
     }
 
 })();

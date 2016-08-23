@@ -6,6 +6,7 @@ import models.persistence.KeywordTable
 import play.api.db.slick.DatabaseConfigProvider
 import slick.driver.JdbcProfile
 import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
   * Created by Matija on 22.8.2016..
@@ -50,11 +51,10 @@ class KeywordDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvide
   }
 
   /*
-  * Method update keyword active status and returns all keywords
+  * Method update keyword active status
   * */
-  def updateKeywordStatus(id: Long, active: Int, userId: Long): Future[Seq[Keyword]] = {
+  def updateKeywordStatus(id: Long, active: Int, userId: Long) = Future {
     db.run(keyword.filter(_.id === id).map(k => (k.active)).update(active))
-    db.run(keyword.filter(_.userId === userId).result)
   }
 
 }

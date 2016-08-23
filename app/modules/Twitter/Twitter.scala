@@ -4,6 +4,7 @@ import play.api.libs.oauth._
 import javax.inject.Inject
 import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, KillSwitches}
+import models.daos.MentionDAO
 import play.api.libs.ws._
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
@@ -15,7 +16,7 @@ import play.api.Configuration
   * Created by Matija on 20.8.2016..
   */
 
-class Twitter @Inject() (ws: WSClient, killSwitch: KillSwitch, conf: Configuration) (implicit ec:ExecutionContext) {
+class Twitter @Inject() (ws: WSClient, killSwitch: KillSwitch, conf: Configuration, mentionDAO: MentionDAO) (implicit ec:ExecutionContext) {
   private val url = "https://stream.twitter.com/1.1/statuses/filter.json"
   private val consumerKey: ConsumerKey = ConsumerKey(conf.underlying.getString("twitter.consumerKey"), conf.underlying.getString("twitter.consumerSecret"))
   private val requestToken: RequestToken = RequestToken(conf.underlying.getString("twitter.accessTokenKey"), conf.underlying.getString("twitter.accessTokenSecret"))
@@ -24,12 +25,12 @@ class Twitter @Inject() (ws: WSClient, killSwitch: KillSwitch, conf: Configurati
   implicit val materializer = ActorMaterializer()
 
 
-  def getTweets(query: String, streamId: String) = Future {
+  def startStream(keywordId: Long, keyword: String, streamId: String) = Future {
     val sharedKillSwitch = KillSwitches.shared(streamId)
-    killSwitch.add(query,sharedKillSwitch)
+    killSwitch.add(streamId,sharedKillSwitch)
     ws.url(url)
         .sign(OAuthCalculator(consumerKey, requestToken))
-        .withQueryString(("track",query))
+        .withQueryString(("track",keyword))
         .withMethod("POST")
         .stream()
         .map { response =>
@@ -40,9 +41,7 @@ class Twitter @Inject() (ws: WSClient, killSwitch: KillSwitch, conf: Configurati
               .filter(_.contains("\r\n"))
               .map(json => Try(parse(json).extract[Tweet]))
               .runForeach {
-                case Success(tweet) =>
-                  println("-----")
-                  println(tweet.text)
+                case Success(tweet) => mentionDAO.save(tweet,keywordId)
                 case Failure(e) =>
                   println("-----")
                   println(e.getStackTrace)
@@ -51,12 +50,11 @@ class Twitter @Inject() (ws: WSClient, killSwitch: KillSwitch, conf: Configurati
         }
   }
 
-  def stopStream(name: String) = Future {
-    val sharedKillSwitch = killSwitch.get(name)
-    sharedKillSwitch.shutdown()
+  def stopStream(streamId: String) = Future {
+    killSwitch.get(streamId).shutdown()
   }
 }
 
 object Twitter {
-  def apply(ws: WSClient,killSwitch: KillSwitch,conf: Configuration)(implicit ec:ExecutionContext): Twitter = new Twitter(ws,killSwitch,conf)
+  def apply(ws: WSClient,killSwitch: KillSwitch,conf: Configuration,mentionDAO: MentionDAO)(implicit ec:ExecutionContext): Twitter = new Twitter(ws,killSwitch,conf,mentionDAO)
 }

@@ -2,16 +2,15 @@ package modules.Panel
 
 import javax.inject.Inject
 
-import models.daos.{KeywordDAO, UserDAO}
+import models.daos.{KeywordDAO, MentionDAO, UserDAO}
 import models.entities.{Keyword, User, UserDetails}
 import modules.Security.AuthenticatedRequest
 import modules.Twitter.{KillSwitch, Twitter}
-import play.api.libs.json.{JsValue, Json}
+import play.api.libs.json.{JsObject, JsValue, Json}
 import play.api.mvc.AnyContent
 import pdi.jwt._
 import play.api.Configuration
 import play.api.libs.ws.WSClient
-
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -20,7 +19,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
   * Created by Matija on 19.8.2016..
   * Panel handler
   */
-class PanelHandler @Inject()(userDAO: UserDAO,keywordDAO: KeywordDAO, ws: WSClient, killSwitch: KillSwitch, conf: Configuration) {
+class PanelHandler @Inject()(userDAO: UserDAO, keywordDAO: KeywordDAO, mentionDAO: MentionDAO, ws: WSClient, killSwitch: KillSwitch, conf: Configuration) {
   /*
   * Method fetch user details
   * */
@@ -55,36 +54,45 @@ class PanelHandler @Inject()(userDAO: UserDAO,keywordDAO: KeywordDAO, ws: WSClie
   }
 
   /*
-  * Method update keyword active status
+  * Method update keyword active status and start stream
   * */
-  def updateAndStartStream(request: AuthenticatedRequest[JsValue]): JsValue = {
+  def updateAndStartStream(request: AuthenticatedRequest[JsValue]): JsObject = {
     val user = request.jwtSession.getAs[User]("user").get
-    val keywordId = request.body.result.get.\("keywordId").as[Long]
-    val active = request.body.result.get.\("active").as[Int]
-    val keywordsList = keywordDAO.updateKeywordStatus(keywordId,active,user.id)
-
-    val keyword = request.body.result.get.\("keyword").as[String]
-    val streamId = keywordId.toString + "-"+user.id.toString
-    this.startStream(keyword,streamId)
-    Json.toJson(Await.result(keywordsList, 1 second))
+    val json = request.body.result.get.\("keyword")
+    val keywordId = json.\("keywordId").as[Long]
+    val active = json.\("active").as[Int]
+    keywordDAO.updateKeywordStatus(keywordId,active,user.id)
+    val keyword = json.\("keyword").as[String]
+    val streamId = keywordId.toString + "-" + user.id.toString
+    this.startStream(keywordId,keyword,streamId)
+    Json.obj("success" -> "successfully updated keyword status")
   }
 
-  def updateAndStopStream(request: AuthenticatedRequest[JsValue]): JsValue = {
+  /*
+  * Method update keyword active status and stop stream
+  * */
+  def updateAndStopStream(request: AuthenticatedRequest[JsValue]): JsObject = {
     val user = request.jwtSession.getAs[User]("user").get
-    val keywordId = request.body.result.get.\("keywordId").as[Long]
-    val active = request.body.result.get.\("active").as[Int]
-    val keywordsList = keywordDAO.updateKeywordStatus(keywordId,active,user.id)
-
-    val streamId = keywordId.toString + "-"+user.id.toString
+    val json = request.body.result.get.\("keyword")
+    val keywordId = json.\("keywordId").as[Long]
+    val active = json.\("active").as[Int]
+    keywordDAO.updateKeywordStatus(keywordId,active,user.id)
+    val streamId = keywordId.toString + "-" + user.id.toString
     this.stopStream(streamId)
-    Json.toJson(Await.result(keywordsList, 1 second))
+    Json.obj("success" -> "successfully updated keyword status")
   }
 
-  private def startStream(keyword: String, streamId: String) = {
-    Twitter(ws,killSwitch,conf).getTweets(keyword,streamId)
+  /*
+  * Start stream
+  * */
+  private def startStream(keywordId: Long, keyword: String, streamId: String) = {
+    Twitter(ws,killSwitch,conf,mentionDAO).startStream(keywordId,keyword,streamId)
   }
 
+  /*
+  * Stop stream
+  * */
   private def stopStream(streamId: String) = {
-    Twitter(ws,killSwitch,conf).stopStream(streamId)
+    Twitter(ws,killSwitch,conf,mentionDAO).stopStream(streamId)
   }
 }

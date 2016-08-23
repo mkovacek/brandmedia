@@ -1,9 +1,10 @@
 package controllers
 
 import javax.inject.{Inject, Singleton}
+
 import forms.Forms
 import modules.Authentication.AuthHandler
-import play.api.cache.Cached
+import modules.Security.Secured
 import play.api.mvc._
 import pdi.jwt._
 import play.api.libs.json.Json
@@ -13,7 +14,7 @@ import play.api.libs.json.Json
   * Controller for Authentication actions
   */
 @Singleton
-class AuthController @Inject()(cache: Cached, auth: AuthHandler, forms: Forms) extends Controller{
+class AuthController @Inject()(auth: AuthHandler, forms: Forms) extends Controller with Secured{
 
   /*
   * Method for user registration
@@ -48,7 +49,7 @@ class AuthController @Inject()(cache: Cached, auth: AuthHandler, forms: Forms) e
   /*
    * Method for user logout
    * */
-  def logout =  Action {
+  def logout =  Authenticated {
     Ok(Json.obj("success" -> "successfully logout")).withoutJwtSession
   }
 }

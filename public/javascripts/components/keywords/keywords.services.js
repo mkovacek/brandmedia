@@ -19,6 +19,16 @@ function KeywordsServices($q, $resource, SERVER_ADDRESS) {
         }
     });
 
+    var stream = $resource('/:url/:type/:action', {
+        url: SERVER_ADDRESS,
+        type: '@type',
+        action: '@action'
+    }, {
+        save: {
+            method: 'POST'
+        }
+    });
+
     var getAction = $resource('/:url/:type/:action', {
         url: SERVER_ADDRESS,
         type: '@type',
@@ -33,7 +43,9 @@ function KeywordsServices($q, $resource, SERVER_ADDRESS) {
     return {
         addKeywords: addKeywords,
         getAllKeywords : getAllKeywords,
-        getActiveKeywords : getActiveKeywords
+        getActiveKeywords : getActiveKeywords,
+        activateKeywordAndStartStream : activateKeywordAndStartStream,
+        deactivateKeywordAndStopStream : deactivateKeywordAndStopStream
     };
 
 
@@ -75,5 +87,23 @@ function KeywordsServices($q, $resource, SERVER_ADDRESS) {
             q.reject(response);
         });
         return q.promise;
+    };
+
+
+    function activateKeywordAndStartStream(keyword) {
+        stream.save({
+            type : 'tweets',
+            action: 'start',
+            keyword : keyword
+        });
+    };
+
+
+    function deactivateKeywordAndStopStream(keyword) {
+        stream.save({
+            type : 'tweets',
+            action: 'stop',
+            keyword : keyword
+        });
     };
 }

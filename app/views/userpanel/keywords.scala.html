@@ -23,8 +23,8 @@
                         </span>
                         <span class="mdl-list__item-secondary-action">
                             <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="keyword-{{keyword.id}}">
-                                <input ng-if="keyword.active === 1" type="checkbox" id="keyword-{{keyword.id}}" class="mdl-switch__input" checked />
-                                <input ng-if="keyword.active === 0" type="checkbox" id="keyword-{{keyword.id}}" class="mdl-switch__input"/>
+                                <input type="checkbox" id="keyword-{{keyword.id}}"  ng-model="keyword.active" ng-true-value="1" ng-false-value="0" ng-checked="keyword.active == 1" class="mdl-switch__input" ng-change="kc.changeStatus(keyword)" />
+@*                                <input ng-if="keyword.active === 0" type="checkbox" id="keyword-{{keyword.id}}"  ng-model="keyword.active" ng-true-value="1" ng-false-value="0" ng-checked="keyword.active === 1"  class="mdl-switch__input" ng-change="kc.changeStatus(keyword)"/>*@
                             </label>
                         </span>
                     </li>

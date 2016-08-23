@@ -1,6 +1,5 @@
 package models.persistence
 
-import java.sql.Date
 import models.entities.Mention
 import slick.driver.MySQLDriver.api._
 
@@ -11,11 +10,11 @@ import slick.driver.MySQLDriver.api._
 class MentionTable(tag : Tag) extends Table[Mention](tag, "mention") {
   def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
   def text = column[String]("text")
-  def created = column[Date]("created")
+  def created = column[String]("created")
   def userName = column[String]("user_name")
   def userUserName = column[String]("user_username")
-  def userLocation = column[String]("user_location")
-  def userImage = column[String]("user_image")
+  def userLocation = column[Option[String]]("user_location")
+  def userImage = column[Option[String]]("user_image")
   def retweetCount = column[Long]("retweet_count")
   def favoriteCount = column[Long]("favorite_count")
   def keywordId = column[Long]("keyword_id")
