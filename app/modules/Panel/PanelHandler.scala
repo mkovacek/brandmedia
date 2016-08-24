@@ -1,16 +1,19 @@
 package modules.Panel
 
-import javax.inject.Inject
+import javax.inject.{Inject, Named}
+
+import akka.actor.ActorRef
 import models.daos.{KeywordDAO, MentionDAO, UserDAO}
-import models.entities.{Keyword, User, UserDetails}
+import models.entities.{Keyword, User, UserDetails, UserKeyword}
 import modules.Security.AuthenticatedRequest
-import modules.Twitter.{KillSwitch, Twitter}
+import modules.Twitter.{KillSwitch, RestartStream}
 import play.api.libs.json.{JsObject, JsValue, Json}
 import play.api.mvc.AnyContent
 import pdi.jwt._
 import play.api.Configuration
 import play.api.libs.ws.WSClient
-import scala.concurrent.Await
+
+import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -18,7 +21,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
   * Created by Matija on 19.8.2016..
   * Panel handler
   */
-class PanelHandler @Inject()(userDAO: UserDAO, keywordDAO: KeywordDAO, mentionDAO: MentionDAO, ws: WSClient, killSwitch: KillSwitch, conf: Configuration) {
+class PanelHandler @Inject()(userDAO: UserDAO, keywordDAO: KeywordDAO, mentionDAO: MentionDAO, ws: WSClient, killSwitch: KillSwitch, conf: Configuration, @Named("stream-actor") streamActor: ActorRef) {
   /*
   * Method fetch user details
   * */
@@ -33,14 +36,19 @@ class PanelHandler @Inject()(userDAO: UserDAO, keywordDAO: KeywordDAO, mentionDA
     val user = request.jwtSession.getAs[User]("user").get
     val keyword = request.body.result.get.\("keyword").as[String]
     val ACTIVE = 1
-    val (savedKeyword, keywordList) = Await.result(keywordDAO.save(Keyword(keyword,ACTIVE,user.id)), 1 second)
-    val streamId = savedKeyword.id.toString + "-" + user.id.toString
-    this.startStream(savedKeyword.id,savedKeyword.keyword,streamId)
+    val uniqueKeyword = Await.result(keywordDAO.findByName(keyword),1 second)
+    val word = uniqueKeyword match {
+      case Some(keyword) => keyword
+      case None => Await.result(keywordDAO.saveKeyword(Keyword(keyword)), 1 second)
+    }
+    Await.result(keywordDAO.saveUserKeyword(UserKeyword(user.id,word.id,ACTIVE)), 1 second)
+    val keywordList = Await.result(keywordDAO.all(user.id), 1 second)
+    this.startNewStream()
     Json.toJson(keywordList)
   }
 
   /*
-  * Method save user keyword
+  * Method returns user keywords
   * */
   def getAllKeywords(request: AuthenticatedRequest[AnyContent]): JsValue = {
     val user = request.jwtSession.getAs[User]("user").get
@@ -48,7 +56,7 @@ class PanelHandler @Inject()(userDAO: UserDAO, keywordDAO: KeywordDAO, mentionDA
   }
 
   /*
-  * Method save user keyword
+  * Method sreturn user active keywords
   * */
   def getActiveKeywords(request: AuthenticatedRequest[AnyContent]): JsValue = {
     val user = request.jwtSession.getAs[User]("user").get
@@ -64,9 +72,6 @@ class PanelHandler @Inject()(userDAO: UserDAO, keywordDAO: KeywordDAO, mentionDA
     val keywordId = json.\("keywordId").as[Long]
     val active = json.\("active").as[Int]
     keywordDAO.updateKeywordStatus(keywordId,active,user.id)
-    val keyword = json.\("keyword").as[String]
-    val streamId = keywordId.toString + "-" + user.id.toString
-    this.startStream(keywordId,keyword,streamId)
     Json.obj("success" -> "successfully updated keyword status")
   }
 
@@ -79,24 +84,20 @@ class PanelHandler @Inject()(userDAO: UserDAO, keywordDAO: KeywordDAO, mentionDA
     val keywordId = json.\("keywordId").as[Long]
     val active = json.\("active").as[Int]
     keywordDAO.updateKeywordStatus(keywordId,active,user.id)
-    val streamId = keywordId.toString + "-" + user.id.toString
-    this.stopStream(streamId)
     Json.obj("success" -> "successfully updated keyword status")
   }
 
-  /*
-  * Start stream
-  * */
-  private def startStream(keywordId: Long, keyword: String, streamId: String) = {
-    Twitter(ws,killSwitch,conf,mentionDAO).startStream(keywordId,keyword,streamId)
-  }
+
 
   /*
-  * Stop stream
+  * Restart stream with added new tracking keywords
   * */
-  private def stopStream(streamId: String) = {
-    Twitter(ws,killSwitch,conf,mentionDAO).stopStream(streamId)
+  private def startNewStream() = Future {
+    val activeKeywords = Await.result(keywordDAO.allStream(), 1 second)
+    val keywordString = activeKeywords.map(_.keyword).mkString(",")
+    streamActor ! RestartStream(activeKeywords,keywordString)
   }
+
 
   /*
   * Get keyword mentions

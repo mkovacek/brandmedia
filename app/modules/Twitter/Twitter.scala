@@ -5,6 +5,7 @@ import javax.inject.Inject
 import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, KillSwitches}
 import models.daos.MentionDAO
+import models.entities.Keyword
 import play.api.libs.ws._
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
@@ -25,33 +26,37 @@ class Twitter @Inject() (ws: WSClient, killSwitch: KillSwitch, conf: Configurati
   implicit val materializer = ActorMaterializer()
 
 
-  def startStream(keywordId: Long, keyword: String, streamId: String) = Future {
-    val sharedKillSwitch = KillSwitches.shared(streamId)
-    killSwitch.add(streamId,sharedKillSwitch)
+  def startStream(keywords: Seq[Keyword], keywordsString: String) = Future {
+    val sharedKillSwitch = KillSwitches.shared(keywordsString)
+    killSwitch.add(sharedKillSwitch)
     ws.url(url)
-        .sign(OAuthCalculator(consumerKey, requestToken))
-        .withQueryString(("track",keyword))
-        .withMethod("POST")
-        .stream()
-        .map { response =>
-          if(response.headers.status == 200){
-            response.body
-              .via(sharedKillSwitch.flow)
-              .scan("")((acc, curr) => if (acc.contains("\r\n")) curr.utf8String else acc + curr.utf8String)
-              .filter(_.contains("\r\n"))
-              .map(json => Try(parse(json).extract[Tweet]))
-              .runForeach {
-                case Success(tweet) => mentionDAO.save(tweet,keywordId)
-                case Failure(e) =>
-                  println("-----")
-                  println(e.getStackTrace)
-              }
-          }
+      .sign(OAuthCalculator(consumerKey,requestToken))
+      .withQueryString(("track",keywordsString))
+      .withMethod("POST")
+      .stream()
+      .map { response =>
+        println(keywordsString+" : "+response.headers.status)
+        if(response.headers.status == 200){
+          response.body
+            .via(sharedKillSwitch.flow)
+            .scan("")((acc, curr) => if (acc.contains("\r\n")) curr.utf8String else acc + curr.utf8String)
+            .filter(_.contains("\r\n"))
+            .map(json => Try(parse(json).extract[Tweet]))
+            .runForeach {
+              case Success(tweet) => mentionDAO.save(keywords,tweet)
+              case Failure(e) => println("")
+            }
         }
+      }
   }
 
-  def stopStream(streamId: String) = Future {
-    killSwitch.get(streamId).shutdown()
+  def stopStream(streamId: String) =  {
+    killSwitch.get().shutdown()
+  }
+
+  def restartStream(keywords: Seq[Keyword], keywordsString: String) = Future {
+    this.stopStream(keywordsString)
+    this.startStream(keywords,keywordsString)
   }
 }
 

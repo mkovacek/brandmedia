@@ -14,8 +14,7 @@ import scala.concurrent.{Await, ExecutionContext}
   */
 @Singleton
 class Startup @Inject()(@Named("stream-actor") streamActor: ActorRef, keywordDAO: KeywordDAO)(implicit ec: ExecutionContext) {
-  val activeKeywords = Await.result(keywordDAO.allActive(), 1 second)
-  activeKeywords.map{keyword =>
-    streamActor ! StartStream(keyword.id,keyword.keyword,keyword.id.toString + "-" + keyword.userId.toString)
-  }
+   val activeKeywords = Await.result(keywordDAO.allStream(), 1 second)
+   val keywordString = activeKeywords.map(_.keyword).mkString(",")
+   streamActor ! StartStream(activeKeywords,keywordString)
 }

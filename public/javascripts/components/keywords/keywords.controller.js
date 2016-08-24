@@ -36,7 +36,7 @@
     KeywordsCtrl.prototype.changeStatus = function (keyword) {
         var data = {
             keyword : keyword.keyword,
-            keywordId : keyword.id,
+            keywordId : keyword.keywordId,
             active : keyword.active
         };
         keyword.active === 1 ? this._KeywordsServices.activateKeywordAndStartStream(data) : this._KeywordsServices.deactivateKeywordAndStopStream(data)

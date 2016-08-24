@@ -3,7 +3,6 @@ import com.google.inject.AbstractModule
 import modules.Actors.{Startup, StreamActor}
 import play.api.libs.concurrent.AkkaGuiceSupport
 
-
 /*
  * Play will automatically use any class called `Module` that is in
  * the root package. You can create modules in other locations by
@@ -13,7 +12,7 @@ import play.api.libs.concurrent.AkkaGuiceSupport
  * */
 class Module extends AbstractModule with AkkaGuiceSupport {
   override def configure() = {
-    bindActor[StreamActor]("stream-actor", RoundRobinPool(5).props)
+    bindActor[StreamActor]("stream-actor", RoundRobinPool(4).props)
     bind(classOf[Startup]).asEagerSingleton()
   }
 }

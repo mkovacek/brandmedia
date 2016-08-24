@@ -2,24 +2,24 @@ package modules.Twitter
 
 import javax.inject.Singleton
 import akka.stream.SharedKillSwitch
-import scala.collection.immutable.HashMap
+
 
 /**
   * Created by Matija on 21.8.2016..
   */
 @Singleton
 class KillSwitch {
-  var killSwitchMap: HashMap[String,SharedKillSwitch] = HashMap()
+  var killSwitch: Vector[SharedKillSwitch] = Vector()
 
-  def add(name: String,killSwitch: SharedKillSwitch) = {
-    killSwitchMap += (name -> killSwitch)
-    println(killSwitchMap)
+  def add(newKillSwitch: SharedKillSwitch) = {
+    killSwitch = Vector(newKillSwitch)
+    println("add "+killSwitch)
   }
-
-  def get(name: String): SharedKillSwitch = {
-    val killSwitch = killSwitchMap(name)
-    killSwitchMap -= name
-    println(killSwitchMap)
-    killSwitch
+  def get(): SharedKillSwitch = {
+    val ks = killSwitch.head
+    println("get "+ks)
+    killSwitch = Vector()
+    println("empty "+killSwitch)
+    ks
   }
 }

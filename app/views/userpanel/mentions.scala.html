@@ -9,8 +9,8 @@
                     <li class="mdl-list__item"  ng-repeat="keyword in mc.activeKeywordList track by $index">
                         <span class="mdl-list__item-primary-content"><i class="material-icons  mdl-list__item-icon">hearing</i>{{keyword.keyword}}</span>
                         <span class="mdl-list__item-secondary-action">
-                            <label class="bm-list-radio mdl-radio mdl-js-radio mdl-js-ripple-effect" for="list-option-{{keyword.id}}">
-                                <input type="radio" id="list-option-{{keyword.id}}" class="mdl-radio__button" name="options" value="{{keyword.id}}" ng-click="mc.getMentions(keyword)"  />
+                            <label class="bm-list-radio mdl-radio mdl-js-radio mdl-js-ripple-effect" for="list-option-{{keyword.keywordId}}">
+                                <input type="radio" id="list-option-{{keyword.keywordId}}" class="mdl-radio__button" name="options" value="{{keyword.keywordId}}" ng-click="mc.getMentions(keyword)"  />
                             </label>
                         </span>
                     </li>

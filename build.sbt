@@ -21,3 +21,7 @@ libraryDependencies ++= Seq(
   "com.github.tototoshi" %% "slick-joda-mapper" % "2.2.0"
 )
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
+
+sources in (Compile, doc) := Seq.empty
+
+publishArtifact in (Compile, packageDoc) := false

@@ -1,11 +1,13 @@
 package models.daos
 
 import javax.inject.Inject
-import models.entities.Mention
+
+import models.entities.{Keyword, Mention}
 import models.persistence.MentionTable
 import modules.Twitter.Tweet
 import play.api.db.slick.DatabaseConfigProvider
 import slick.driver.JdbcProfile
+
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -29,19 +31,21 @@ class MentionDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvide
   /*
   * Method save new mention
   * */
-  def save(tweet: Tweet, keywordId: Long) = Future {
-    val newMention = Mention(
-      tweet.text,
-      tweet.created_at,
-      tweet.user.name,
-      tweet.user.screen_name,
-      tweet.user.location,
-      tweet.user.profile_background_image_url_https,
-      tweet.retweet_count,
-      tweet.favorite_count,
-      keywordId
-    )
-    db.run(mention += newMention)
+  def save(keywords: Seq[Keyword], tweet: Tweet) = Future {
+    keywords.filter(k => tweet.text.toLowerCase.contains(k.keyword.toLowerCase)).map{ keyword =>
+      val newMention = Mention(
+        tweet.text,
+        tweet.created_at,
+        tweet.user.name,
+        tweet.user.screen_name,
+        tweet.user.location,
+        tweet.user.profile_background_image_url_https,
+        tweet.retweet_count,
+        tweet.favorite_count,
+        keyword.id
+      )
+      db.run(mention += newMention)
+    }
   }
 
   /*

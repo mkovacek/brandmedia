@@ -28,10 +28,16 @@ create table user(
 create table keyword(
   id                         bigint auto_increment not null,
   keyword                    varchar(255),
-  active                     int,
-  user_id                    bigint,
-  constraint keyword_pk primary key (id),
-  constraint keyword_user_fk FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE ON UPDATE CASCADE
+  constraint keyword_pk primary key (id)
+);
+
+create table user_keyword (
+  user_id    BIGINT NOT NULL,
+  keyword_id BIGINT NOT NULL,
+  active     INT,
+  constraint user_keyword_pk primary key (user_id,keyword_id),
+  constraint user_keyword_user_fk FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  constraint user_keyword_keywords_fk FOREIGN KEY (keyword_id) REFERENCES keyword (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 create table mention(
@@ -59,6 +65,8 @@ drop table user_details;
 drop table user;
 
 drop table keyword;
+
+drop table user_keywords;
 
 drop table mention;
 
