@@ -95,6 +95,12 @@ class PanelController @Inject() (cache: Cached, panel: PanelHandler) extends Con
     Ok(panel.getMentions(request))
   }
 
+  /*
+  * Method fetch analytics
+  * */
+  def getAnalytics() = Authenticated(BodyParsers.parse.json) { request =>
+    Ok(panel.getAnalytics(request))
+  }
 
 }
 

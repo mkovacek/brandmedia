@@ -1,4 +1,4 @@
-package modules.Twitter
+package models.Other.Twitter
 
 /**
   * Created by Matija on 20.8.2016..

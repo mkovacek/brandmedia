@@ -1,11 +1,11 @@
 /**
- * Created by Matija on 23.8.2016..
+ * Created by Matija on 24.8.2016..
  */
-angular.module('mentions.services', []).factory('MentionsServices', MentionsServices);
+angular.module('analytics.services', []).factory('AnalyticsServices', AnalyticsServices);
 
-MentionsServices.$inject = ['$q', '$resource', 'SERVER_ADDRESS'];
+AnalyticsServices.$inject = ['$q', '$resource', 'SERVER_ADDRESS'];
 
-function MentionsServices($q, $resource, SERVER_ADDRESS) {
+function AnalyticsServices($q, $resource, SERVER_ADDRESS) {
 
     var postAction = $resource('/:url/:type/:action', {
         url: SERVER_ADDRESS,
@@ -18,13 +18,13 @@ function MentionsServices($q, $resource, SERVER_ADDRESS) {
     });
 
     return {
-        fetchMentions: fetchMentions
+        fetchAnalytics: fetchAnalytics
     };
 
-    function fetchMentions(data) {
+    function fetchAnalytics(data) {
         var q = $q.defer();
         postAction.save({
-            type : 'mentions',
+            type : 'statistics',
             action: 'fetch',
             data: data
         }, function(response) {
@@ -34,4 +34,6 @@ function MentionsServices($q, $resource, SERVER_ADDRESS) {
         });
         return q.promise;
     };
+
+
 }

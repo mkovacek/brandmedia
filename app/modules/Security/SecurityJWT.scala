@@ -12,11 +12,9 @@ import scala.concurrent.Future
   */
 class AuthenticatedRequest[A](val user: User, request: Request[A]) extends WrappedRequest[A](request)
 
-/*class PublicRequest[A](request: Request[A]) extends WrappedRequest[A](request)*/
 
 trait Secured {
   def Authenticated = AuthenticatedAction
-/*  def Public = PublicAction*/
 }
 
 object AuthenticatedAction extends ActionBuilder[AuthenticatedRequest] {
@@ -27,11 +25,4 @@ object AuthenticatedAction extends ActionBuilder[AuthenticatedRequest] {
     }
 }
 
-/*object PublicAction extends ActionBuilder[AuthenticatedRequest] {
-  def invokeBlock[A](request: Request[A], block: AuthenticatedRequest[A] => Future[Result]) =
-    request.jwtSession.getAs[User]("user") match {
-      case Some(user) => block(new AuthenticatedRequest(user, request)).map(_.refreshJwtSession(request))
-      case _ => block(new PublicRequest(request)).map(_.refreshJwtSession(request))
-    }
-}*/
 

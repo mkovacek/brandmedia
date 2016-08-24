@@ -13,13 +13,10 @@ class KillSwitch {
 
   def add(newKillSwitch: SharedKillSwitch) = {
     killSwitch = Vector(newKillSwitch)
-    println("add "+killSwitch)
   }
   def get(): SharedKillSwitch = {
     val ks = killSwitch.head
-    println("get "+ks)
     killSwitch = Vector()
-    println("empty "+killSwitch)
     ks
   }
 }

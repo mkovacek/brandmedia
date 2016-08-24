@@ -15,6 +15,7 @@ angular.module('brandmedia', [
   'keywords.controller',
   'mentions.services',
   'mentions.controller',
+  'analytics.services',
   'analytics.controller'
 ])
 

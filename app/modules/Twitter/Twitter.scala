@@ -2,11 +2,14 @@ package modules.Twitter
 
 import play.api.libs.oauth._
 import javax.inject.Inject
+
 import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, KillSwitches}
+import models.Other.Twitter.Tweet
 import models.daos.MentionDAO
 import models.entities.Keyword
 import play.api.libs.ws._
+
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 import org.json4s._
@@ -44,7 +47,7 @@ class Twitter @Inject() (ws: WSClient, killSwitch: KillSwitch, conf: Configurati
             .map(json => Try(parse(json).extract[Tweet]))
             .runForeach {
               case Success(tweet) => mentionDAO.save(keywords,tweet)
-              case Failure(e) => println("")
+              case Failure(e) => ""
             }
         }
       }

@@ -2,9 +2,10 @@ package models.daos
 
 import javax.inject.Inject
 
+import models.Other.Statistics.Statistics
+import models.Other.Twitter.Tweet
 import models.entities.{Keyword, Mention}
 import models.persistence.MentionTable
-import modules.Twitter.Tweet
 import play.api.db.slick.DatabaseConfigProvider
 import slick.driver.JdbcProfile
 
@@ -53,6 +54,42 @@ class MentionDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvide
   * */
   def fetchMentions(keywordId: Long, offset: Int, size: Int): Future[Seq[Mention]] = {
     db.run(mention.filter(_.keywordId === keywordId).sortBy(_.id.desc).drop(offset).take(size).result)
+  }
+
+  /*
+  * Statistics by user mentions
+  * */
+  def statisticsByUser(keywordId: Long, size: Int): Future[Seq[Statistics]] = {
+    val query = mention.filter(_.keywordId === keywordId).groupBy(_.userName).map{
+      case (s, results) => (s -> results.length)
+    }
+
+    val action = for(
+      result <- query.take(size).result
+    ) yield {
+      result.map{ row =>
+        Statistics(row._1, row._2)
+      }
+    }
+    db.run(action)
+  }
+
+  /*
+  * Statistics by user mentions
+  * */
+  def statisticsByCountries(keywordId: Long, size: Int): Future[Seq[Statistics]] = {
+    val query = mention.filter(_.keywordId === keywordId).filter(_.userLocation.isDefined).groupBy(_.userLocation).map{
+      case (s, results) => (s -> results.length)
+    }
+
+    val action = for(
+      result <- query.take(size).result
+    ) yield {
+      result.map{ row =>
+        Statistics(row._1.getOrElse("Unknown location"),row._2)
+      }
+    }
+    db.run(action)
   }
 
 }

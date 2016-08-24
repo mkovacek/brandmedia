@@ -6,13 +6,19 @@
 
     angular.module('analytics.controller', []).controller('AnalyticsCtrl', AnalyticsCtrl);
 
-    AnalyticsCtrl.$inject = ['KeywordsServices'];
+    AnalyticsCtrl.$inject = ['KeywordsServices','AnalyticsServices'];
 
-    function AnalyticsCtrl(KeywordsServices){
+    function AnalyticsCtrl(KeywordsServices,AnalyticsServices){
         this.activeKeywordList = {};
         this._KeywordsServices = KeywordsServices;
+        this._AnalyticsServices = AnalyticsServices;
         this.show = false;
         this.getActiveKeywordList();
+        this.statistics = {
+            users:"",
+            countries:""
+        }
+        this.selectedKeyword="";
     }
 
     AnalyticsCtrl.prototype.getActiveKeywordList = function () {
@@ -23,7 +29,18 @@
     }
 
     AnalyticsCtrl.prototype.getAnalytics = function (keywordId) {
-        this.show = true;
+        this.selectedKeyword = keywordId;
+        var that = this;
+        var data = {
+            keywordId: keywordId,
+            size:5
+        }
+        this._AnalyticsServices.fetchAnalytics(data).then(function(response){
+            that.statistics.users = response.users;
+            that.statistics.countries = response.countries;
+            that.show = true;
+        })
+
     }
 
 })();

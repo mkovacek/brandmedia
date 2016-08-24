@@ -1,4 +1,4 @@
-package modules.Twitter
+package models.Other.Twitter
 
 import models.entities.Keyword
 

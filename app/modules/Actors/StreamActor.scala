@@ -1,11 +1,14 @@
 package modules.Actors
 
 import javax.inject.Inject
+
 import akka.actor.{Actor, Props}
+import models.Other.Twitter.{RestartStream, StartStream, StopStream}
 import models.daos.MentionDAO
 import modules.Twitter._
 import play.api.Configuration
 import play.api.libs.ws.WSClient
+
 import scala.concurrent.ExecutionContext.Implicits.global
 
 /**

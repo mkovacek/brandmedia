@@ -1,9 +1,11 @@
 package modules.Actors
 
 import javax.inject.{Inject, Named, Singleton}
+
 import akka.actor.ActorRef
+import models.Other.Twitter.StartStream
 import models.daos.KeywordDAO
-import modules.Twitter.StartStream
+
 import scala.concurrent.duration._
 import scala.concurrent.{Await, ExecutionContext}
 

@@ -3,10 +3,11 @@ package modules.Panel
 import javax.inject.{Inject, Named}
 
 import akka.actor.ActorRef
+import models.Other.Twitter.RestartStream
 import models.daos.{KeywordDAO, MentionDAO, UserDAO}
 import models.entities.{Keyword, User, UserDetails, UserKeyword}
 import modules.Security.AuthenticatedRequest
-import modules.Twitter.{KillSwitch, RestartStream}
+import modules.Twitter.KillSwitch
 import play.api.libs.json.{JsObject, JsValue, Json}
 import play.api.mvc.AnyContent
 import pdi.jwt._
@@ -37,13 +38,13 @@ class PanelHandler @Inject()(userDAO: UserDAO, keywordDAO: KeywordDAO, mentionDA
     val keyword = request.body.result.get.\("keyword").as[String]
     val ACTIVE = 1
     val uniqueKeyword = Await.result(keywordDAO.findByName(keyword),1 second)
-    val word = uniqueKeyword match {
-      case Some(keyword) => keyword
-      case None => Await.result(keywordDAO.saveKeyword(Keyword(keyword)), 1 second)
+    val (newStream,word) = uniqueKeyword match {
+      case Some(keyword) => (false,keyword)
+      case None => (true,Await.result(keywordDAO.saveKeyword(Keyword(keyword)), 1 second))
     }
     Await.result(keywordDAO.saveUserKeyword(UserKeyword(user.id,word.id,ACTIVE)), 1 second)
     val keywordList = Await.result(keywordDAO.all(user.id), 1 second)
-    this.startNewStream()
+    if(newStream) this.startNewStream()
     Json.toJson(keywordList)
   }
 
@@ -110,4 +111,21 @@ class PanelHandler @Inject()(userDAO: UserDAO, keywordDAO: KeywordDAO, mentionDA
     val mentions = Json.toJson(Await.result(mentionDAO.fetchMentions(keywordId, offset, size), 1 second))
     Json.obj("meta" -> Json.obj("offset" -> size), "mentions" -> mentions)
   }
+
+  /*
+  * Get analytics
+  * */
+  def getAnalytics(request: AuthenticatedRequest[JsValue]): JsObject = {
+    val json = request.body.result.get.\("data")
+    val keywordId = json.\("keywordId").as[Long]
+    val size = json.\("size").as[Int]
+    val analytics = for {
+      byUsers <- mentionDAO.statisticsByUser(keywordId,size)
+      byCountrie <-mentionDAO.statisticsByCountries(keywordId,size)
+    } yield (byUsers,byCountrie)
+    val result = Await.result(analytics, 10 second)
+    Json.obj("users" -> result._1, "countries" -> result._2)
+  }
+
+
 }

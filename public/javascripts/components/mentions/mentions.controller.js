@@ -36,12 +36,12 @@
 
     MentionsCtrl.prototype.getMentions = function (keyword) {
         var that = this;
-        this.show = true;
         this.highlightKeyword = keyword.keyword;
         this.data.keywordId = keyword.keywordId;
         this.data.offset = 0;
         this._MentionsServices.fetchMentions(this.data).then(function(response){
             that.mentionList = response.mentions;
+            that.show = true;
             that.data.offset = that.data.offset + response.meta.offset;
         })
     };
