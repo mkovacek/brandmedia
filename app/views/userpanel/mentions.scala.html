@@ -1,5 +1,5 @@
 <div class="mdl-grid" ng-controller="MentionsCtrl as mc">
-    <div class="mdl-cell mdl-cell--3-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone" >
+    <div ng-if="mc.activeKeywordList.length !== 0" class="mdl-cell mdl-cell--3-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone" >
         <div class="mdl-card mdl-card--width--full mdl-shadow--3dp">
             <div class="mdl-card__title">
                 <h2 class="mdl-card__title-text">Select keyword</h2>
@@ -15,6 +15,21 @@
                         </span>
                     </li>
                 </ul>
+            </div>
+        </div>
+    </div>
+    <div ng-if="mc.activeKeywordList.length === 0" class="mdl-cell mdl-cell--12-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+        <div class="mdl-card mdl-card--width--full mdl-card--image--SignUp mdl-shadow--2dp">
+            <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text mdl-color-text--white">Welcome</h2>
+            </div>
+            <div class="mdl-card__supporting-text">To see what other people say about your brand, first you have to add your brand</div>
+            <div class="mdl-card__actions mdl-card--border">
+                <div class="mdl-grid">
+                    <div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-tablet mdl-cell--2-col-phone">
+                        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" ui-sref="home.keywords">Get started</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

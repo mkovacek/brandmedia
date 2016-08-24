@@ -30,7 +30,7 @@ class KeywordDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvide
   * Method fetch all keywords by user id
   * */
   def all(id: Long): Future[Seq[Keyword]] = {
-    db.run(keyword.filter(_.userId === id).result)
+    db.run(keyword.filter(_.userId === id).sortBy(_.id.desc).result)
   }
 
   /*
