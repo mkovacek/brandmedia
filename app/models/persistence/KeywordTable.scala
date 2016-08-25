@@ -10,5 +10,6 @@ import slick.driver.MySQLDriver.api._
 class KeywordTable(tag : Tag) extends Table[Keyword](tag, "keyword") {
   def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
   def keyword = column[String]("keyword")
-  def * = (keyword,id) <> ((Keyword.apply _).tupled, Keyword.unapply)
+  def active = column[Int]("active")
+  def * = (keyword,active,id) <> ((Keyword.apply _).tupled, Keyword.unapply)
 }

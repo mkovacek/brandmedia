@@ -40,7 +40,7 @@ class PanelHandler @Inject()(userDAO: UserDAO, keywordDAO: KeywordDAO, mentionDA
     val uniqueKeyword = Await.result(keywordDAO.findByName(keyword),1 second)
     val (newStream,word) = uniqueKeyword match {
       case Some(keyword) => (false,keyword)
-      case None => (true,Await.result(keywordDAO.saveKeyword(Keyword(keyword)), 1 second))
+      case None => (true,Await.result(keywordDAO.saveKeyword(Keyword(keyword,ACTIVE)), 1 second))
     }
     Await.result(keywordDAO.saveUserKeyword(UserKeyword(user.id,word.id,ACTIVE)), 1 second)
     val keywordList = Await.result(keywordDAO.all(user.id), 1 second)
@@ -72,7 +72,12 @@ class PanelHandler @Inject()(userDAO: UserDAO, keywordDAO: KeywordDAO, mentionDA
     val json = request.body.result.get.\("keyword")
     val keywordId = json.\("keywordId").as[Long]
     val active = json.\("active").as[Int]
-    keywordDAO.updateKeywordStatus(keywordId,active,user.id)
+    val userKeywords = Await.result(keywordDAO.fetchByKewordId(keywordId),1 second)
+    if(userKeywords.forall(_.active == 0)){
+      Await.result(keywordDAO.updateKeywordStatus(keywordId,active), 1 second)
+      this.startNewStream()
+    }
+    keywordDAO.updateUserKeywordStatus(keywordId,active,user.id)
     Json.obj("success" -> "successfully updated keyword status")
   }
 
@@ -84,7 +89,12 @@ class PanelHandler @Inject()(userDAO: UserDAO, keywordDAO: KeywordDAO, mentionDA
     val json = request.body.result.get.\("keyword")
     val keywordId = json.\("keywordId").as[Long]
     val active = json.\("active").as[Int]
-    keywordDAO.updateKeywordStatus(keywordId,active,user.id)
+    Await.result(keywordDAO.updateUserKeywordStatus(keywordId,active,user.id), 1 second)
+    val userKeywords = Await.result(keywordDAO.fetchByKewordId(keywordId),1 second)
+    if(userKeywords.forall(_.active == 0)){
+      Await.result(keywordDAO.updateKeywordStatus(keywordId,active), 1 second)
+      this.startNewStream()
+    }
     Json.obj("success" -> "successfully updated keyword status")
   }
 

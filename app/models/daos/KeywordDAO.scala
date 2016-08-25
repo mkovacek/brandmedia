@@ -6,8 +6,8 @@ import models.entities.{Keyword, KeywordUserKeyword, UserKeyword}
 import models.persistence.{KeywordTable, UserKeywordTable}
 import play.api.db.slick.DatabaseConfigProvider
 import slick.driver.JdbcProfile
-
-import scala.concurrent.Future
+import scala.concurrent.duration._
+import scala.concurrent.{Await, Future}
 import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
@@ -48,17 +48,24 @@ class KeywordDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvide
   }
 
   /*
-  * Method fetch all keywords for stream
+  * Method fetch all active keywords for stream
   * */
   def allStream(): Future[Seq[Keyword]] = {
-    db.run(keyword.result)
+    db.run(keyword.filter(_.active === ACTIVE).result)
   }
 
   /*
-  * Method fetch all active keywords
+  * Method fetch keyword by name
   * */
   def findByName(name: String): Future[Option[Keyword]] = {
     db.run(keyword.filter(_.keyword === name).result.headOption)
+  }
+
+  /*
+  * Method fetch userkeyword by keywordsid
+  * */
+  def fetchByKewordId(keywordId: Long): Future[Seq[UserKeyword]] = {
+    db.run(userKeyword.filter(_.keywordId === keywordId).result)
   }
 
   /*
@@ -95,10 +102,17 @@ class KeywordDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvide
   }
 
   /*
+  * Method update user keyword active status
+  * */
+  def updateUserKeywordStatus(keywordId: Long, active: Int, userId: Long) = Future {
+    db.run(userKeyword.filter(_.userId === userId).filter(_.keywordId === keywordId).map(k => (k.active)).update(active))
+  }
+
+  /*
   * Method update keyword active status
   * */
-  def updateKeywordStatus(keywordId: Long, active: Int, userId: Long) = Future {
-    db.run(userKeyword.filter(_.userId === userId).filter(_.keywordId === keywordId).map(k => (k.active)).update(active))
+  def updateKeywordStatus(keywordId: Long, active: Int) = Future {
+    db.run(keyword.filter(_.id === keywordId).map(k => (k.active)).update(active))
   }
 
 }

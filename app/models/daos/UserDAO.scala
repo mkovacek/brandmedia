@@ -56,10 +56,6 @@ class UserDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider){
     db.run(insert += newUserDetails)
   }
 
-/*  def update(id: Long,updatedUser: User) = {
-    user.filter(_.id === id).map(u => (u.email, u.details.take(), u.details.surname, u.password))
-  }*/
-
   /*USER DETAILS*/
 
   /*
