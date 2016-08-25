@@ -85,4 +85,8 @@
         this.countrieChartObj = chartObj
     }
 
+    AnalyticsCtrl.prototype.formatPie =function(value, ratio, id) {
+        return d3.format(',')(value);
+    };
+
 })();

@@ -60,7 +60,7 @@ class MentionDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvide
   * Statistics by user mentions
   * */
   def statisticsByUser(keywordId: Long, size: Int): Future[Seq[Statistics]] = {
-    val query = mention.filter(_.keywordId === keywordId).groupBy(_.userName).map{
+    val query = mention.filter(_.keywordId === keywordId).filter(_.userName =!= "").filter(_.userName =!= " ").groupBy(_.userName).map{
       case (s, results) => (s -> results.length)
     }
 
@@ -75,10 +75,10 @@ class MentionDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvide
   }
 
   /*
-  * Statistics by user mentions
+  * Statistics by countrie mentions
   * */
   def statisticsByCountries(keywordId: Long, size: Int): Future[Seq[Statistics]] = {
-    val query = mention.filter(_.keywordId === keywordId).filter(_.userLocation.isDefined).groupBy(_.userLocation).map{
+    val query = mention.filter(_.keywordId === keywordId).filter(_.userLocation.isDefined).filter(_.userLocation =!= "").filter(_.userLocation =!= " ").groupBy(_.userLocation).map{
       case (s, results) => (s -> results.length)
     }
 
