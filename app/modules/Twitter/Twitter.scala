@@ -28,6 +28,7 @@ class Twitter @Inject() (ws: WSClient, killSwitch: KillSwitch, conf: Configurati
   implicit val system = ActorSystem()
   implicit val materializer = ActorMaterializer()
 
+
   def startStream(keywords: Seq[Keyword], keywordsString: String) = Future {
     val sharedKillSwitch = KillSwitches.shared(keywordsString)
     killSwitch.add(sharedKillSwitch)
@@ -37,6 +38,7 @@ class Twitter @Inject() (ws: WSClient, killSwitch: KillSwitch, conf: Configurati
       .withMethod("POST")
       .stream()
       .map { response =>
+        println(keywordsString+" : "+response.headers.status)
         if(response.headers.status == 200){
           response.body
             .via(sharedKillSwitch.flow)
