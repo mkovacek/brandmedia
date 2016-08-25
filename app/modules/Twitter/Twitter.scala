@@ -38,7 +38,6 @@ class Twitter @Inject() (ws: WSClient, killSwitch: KillSwitch, conf: Configurati
       .withMethod("POST")
       .stream()
       .map { response =>
-        println(keywordsString+" : "+response.headers.status)
         if(response.headers.status == 200){
           response.body
             .via(sharedKillSwitch.flow)
