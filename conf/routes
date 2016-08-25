@@ -7,6 +7,7 @@ GET     /                           controllers.HomeController.index(any="none")
 GET     /index                      controllers.HomeController.indexLogIn
 GET     /signin                     controllers.HomeController.signIn
 GET     /signup                     controllers.HomeController.signUp
+
 #user panel
 GET     /home                       controllers.PanelController.panel(any="none")
 GET     /home/content               controllers.PanelController.content

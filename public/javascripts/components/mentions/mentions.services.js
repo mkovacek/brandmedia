@@ -33,5 +33,5 @@ function MentionsServices($q, $resource, SERVER_ADDRESS) {
             q.reject(response);
         });
         return q.promise;
-    };
+    }
 }

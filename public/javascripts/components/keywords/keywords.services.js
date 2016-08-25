@@ -61,7 +61,7 @@ function KeywordsServices($q, $resource, SERVER_ADDRESS) {
             q.reject(response);
         });
         return q.promise;
-    };
+    }
 
     function getAllKeywords() {
         var q = $q.defer();
@@ -74,7 +74,7 @@ function KeywordsServices($q, $resource, SERVER_ADDRESS) {
             q.reject(response);
         });
         return q.promise;
-    };
+    }
 
     function getActiveKeywords() {
         var q = $q.defer();
@@ -87,7 +87,7 @@ function KeywordsServices($q, $resource, SERVER_ADDRESS) {
             q.reject(response);
         });
         return q.promise;
-    };
+    }
 
 
     function activateKeywordAndStartStream(keyword) {
@@ -96,7 +96,7 @@ function KeywordsServices($q, $resource, SERVER_ADDRESS) {
             action: 'start',
             keyword : keyword
         });
-    };
+    }
 
 
     function deactivateKeywordAndStopStream(keyword) {
@@ -105,5 +105,5 @@ function KeywordsServices($q, $resource, SERVER_ADDRESS) {
             action: 'stop',
             keyword : keyword
         });
-    };
+    }
 }

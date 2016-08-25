@@ -20,7 +20,7 @@
         this._KeywordsServices.getAllKeywords().then(function (response) {
             that.keywordList = response;
         })
-    }
+    };
 
 
     KeywordsCtrl.prototype.addKeyword = function () {
@@ -31,7 +31,7 @@
                 that.keywordList = response;
             })
         }
-    }
+    };
 
     KeywordsCtrl.prototype.changeStatus = function (keyword) {
         var data = {
@@ -39,7 +39,7 @@
             keywordId : keyword.keywordId,
             active : keyword.active
         };
-        keyword.active === 1 ? this._KeywordsServices.activateKeywordAndStartStream(data) : this._KeywordsServices.deactivateKeywordAndStopStream(data)
-    }
+        keyword.active === 1 ? this._KeywordsServices.activateKeywordAndStartStream(data) : this._KeywordsServices.deactivateKeywordAndStopStream(data);
+    };
 
 })();

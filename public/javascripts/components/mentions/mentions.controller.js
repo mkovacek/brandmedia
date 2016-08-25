@@ -17,7 +17,6 @@
         this.show = false;
         this.getActiveKeywordList();
         this.highlightKeyword='';
-        //pagination
         this.currentPage = 1;
         this.pageSize = 5;
         this.data = {
@@ -31,7 +30,7 @@
         var that = this;
         this._KeywordsServices.getActiveKeywords().then(function (response) {
             that.activeKeywordList = response;
-        })
+        });
     };
 
     MentionsCtrl.prototype.getMentions = function (keyword) {
@@ -43,7 +42,7 @@
             that.mentionList = response.mentions;
             that.show = true;
             that.data.offset = that.data.offset + response.meta.offset;
-        })
+        });
     };
 
     MentionsCtrl.prototype.highlight = function(status) {
@@ -59,7 +58,6 @@
         var that=this;
         var lastPageNumber=Math.ceil(this.mentionList.length/this.pageSize);
         if(lastPageNumber-newPageNumber === 1 || lastPageNumber === newPageNumber){
-            console.log("novi fetch");
             this._MentionsServices.fetchMentions(this.data).then(function(response){
                 that.mentionList.push.apply(that.mentionList,response.mentions);
                 that.data.offset = that.data.offset + response.meta.offset;

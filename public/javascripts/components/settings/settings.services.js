@@ -34,5 +34,5 @@ function SettingsServices($q, $resource, SERVER_ADDRESS) {
             q.reject(response);
         });
         return q.promise;
-    };
+    }
 }
