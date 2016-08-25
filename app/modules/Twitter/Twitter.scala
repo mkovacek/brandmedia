@@ -1,13 +1,14 @@
 package modules.Twitter
 
 import play.api.libs.oauth._
-import javax.inject.Inject
+import javax.inject.{Inject, Singleton}
 
 import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, KillSwitches}
 import models.Other.Twitter.Tweet
 import models.daos.MentionDAO
 import models.entities.Keyword
+import modules.Actors.Startup
 import play.api.libs.ws._
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -19,7 +20,7 @@ import play.api.Configuration
 /**
   * Created by Matija on 20.8.2016..
   */
-
+@Singleton
 class Twitter @Inject() (ws: WSClient, killSwitch: KillSwitch, conf: Configuration, mentionDAO: MentionDAO) (implicit ec:ExecutionContext) {
   private val url = "https://stream.twitter.com/1.1/statuses/filter.json"
   private val consumerKey: ConsumerKey = ConsumerKey(conf.underlying.getString("twitter.consumerKey"), conf.underlying.getString("twitter.consumerSecret"))
@@ -30,7 +31,7 @@ class Twitter @Inject() (ws: WSClient, killSwitch: KillSwitch, conf: Configurati
 
 
   def startStream(keywords: Seq[Keyword], keywordsString: String) = Future {
-    val sharedKillSwitch = KillSwitches.shared(keywordsString)
+    val sharedKillSwitch = KillSwitches.shared("test")
     killSwitch.add(sharedKillSwitch)
     ws.url(url)
       .sign(OAuthCalculator(consumerKey,requestToken))
@@ -49,6 +50,7 @@ class Twitter @Inject() (ws: WSClient, killSwitch: KillSwitch, conf: Configurati
               case Success(tweet) => mentionDAO.save(keywords,tweet)
               case Failure(e) => ""
             }
+
         }
       }
   }
@@ -59,6 +61,7 @@ class Twitter @Inject() (ws: WSClient, killSwitch: KillSwitch, conf: Configurati
 
   def restartStream(keywords: Seq[Keyword], keywordsString: String) = Future {
     this.stopStream(keywordsString)
+    Thread.sleep(325000)
     this.startStream(keywords,keywordsString)
   }
 }
