@@ -1,8 +1,8 @@
 package modules.Actors
 
-import javax.inject.Inject
+import javax.inject.{Inject, Named}
 
-import akka.actor.{Actor, Props}
+import akka.actor.{Actor, ActorRef, Props}
 import models.Other.Twitter.{RestartStream, StartStream, StopStream}
 import models.daos.MentionDAO
 import modules.Twitter._
@@ -21,11 +21,11 @@ object StreamActor {
   def props = Props[StreamActor]
 }
 
-class StreamActor @Inject() (mentionDAO: MentionDAO, ws: WSClient, killSwitch: KillSwitch, conf: Configuration) extends Actor{
+class StreamActor @Inject() (mentionDAO: MentionDAO, ws: WSClient, killSwitch: KillSwitch, conf: Configuration, @Named("streamRestart-actor") streamRestartActor: ActorRef) extends Actor{
    def receive: Receive = {
-     case StartStream(keywords, keywordsString) => Twitter(ws,killSwitch,conf,mentionDAO).startStream(keywords,keywordsString)
-     case RestartStream(keywords, keywordsString) => Twitter(ws,killSwitch,conf,mentionDAO).restartStream(keywords,keywordsString)
-     case StopStream(streamId) => Twitter(ws,killSwitch,conf,mentionDAO).stopStream(streamId)
+     case StartStream(keywords, keywordsString) => Twitter(ws,killSwitch,conf,mentionDAO,streamRestartActor).startStream(keywords,keywordsString)
+     case RestartStream(keywords, keywordsString) => Twitter(ws,killSwitch,conf,mentionDAO,streamRestartActor).restartStream(keywords,keywordsString)
+     case StopStream(streamId) => Twitter(ws,killSwitch,conf,mentionDAO,streamRestartActor).stopStream()
    }
 
 }

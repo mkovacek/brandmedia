@@ -2,7 +2,7 @@ package models.persistence
 
 import models.entities.User
 import slick.driver.MySQLDriver.api._
-
+//POVEZIVANJE MODELA S TABLICOM
 /**
   * Created by Matija on 16.8.2016..
   * Class for User entity <=> DB user table connection

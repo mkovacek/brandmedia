@@ -12,7 +12,6 @@ import scala.concurrent.Future
   */
 class AuthenticatedRequest[A](val user: User, request: Request[A]) extends WrappedRequest[A](request)
 
-
 trait Secured {
   def Authenticated = AuthenticatedAction
 }

@@ -2,6 +2,7 @@ package models.entities
 
 import play.api.libs.json.Json
 
+//MODEL
 /**
   * Created by Matija on 16.8.2016..
   * User entity

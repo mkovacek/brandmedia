@@ -7,14 +7,13 @@ import modules.Panel.PanelHandler
 import modules.Security.Secured
 import play.api.mvc._
 import pdi.jwt._
-import play.api.cache.Cached
 
 
 /**
   * Created by Matija on 3.8.2016..
   * Controller for rendering html parts of user panel page
   */
-class PanelController @Inject() (cache: Cached, panel: PanelHandler) extends Controller with Secured {
+class PanelController @Inject() (panel: PanelHandler) extends Controller with Secured {
 
   /*
   * Method for rendering panel layout view
@@ -34,21 +33,21 @@ class PanelController @Inject() (cache: Cached, panel: PanelHandler) extends Con
   /*
   * Method for rendering keywords view
   * */
-  def keywords = Authenticated {  //cache
+  def keywords = Authenticated {
     Ok(views.html.userpanel.keywords())
   }
 
   /*
   * Method for rendering mentions view
   * */
-  def mentions = Authenticated { //cache
+  def mentions = Authenticated {
     Ok(views.html.userpanel.mentions())
   }
 
   /*
   * Method for rendering analytics view
   * */
-  def analytics = Authenticated { //cache
+  def analytics = Authenticated {
     Ok(views.html.userpanel.analytics())
   }
 

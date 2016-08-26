@@ -7,6 +7,7 @@ import play.api.db.slick.DatabaseConfigProvider
 import slick.driver.JdbcProfile
 import scala.concurrent.Future
 
+//UPITI
 /**
   * Created by Matija on 17.8.2016..
   * Class responsible to get data from a data source (User and related models)

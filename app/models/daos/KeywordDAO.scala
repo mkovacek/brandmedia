@@ -6,8 +6,7 @@ import models.entities.{Keyword, KeywordUserKeyword, UserKeyword}
 import models.persistence.{KeywordTable, UserKeywordTable}
 import play.api.db.slick.DatabaseConfigProvider
 import slick.driver.JdbcProfile
-import scala.concurrent.duration._
-import scala.concurrent.{Await, Future}
+import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
 /**

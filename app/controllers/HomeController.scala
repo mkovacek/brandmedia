@@ -1,7 +1,6 @@
 package controllers
 
 import javax.inject.{Inject, Singleton}
-import modules.Security.Secured
 import forms.Forms
 import play.api.cache.Cached
 import play.api.mvc._
@@ -11,7 +10,7 @@ import play.api.mvc._
   * Controller for rendering html parts of index page
   */
 @Singleton
-class HomeController @Inject() (cache: Cached, forms: Forms) extends Controller with Secured{
+class HomeController @Inject() (cache: Cached, forms: Forms) extends Controller {
 
   /*
   * Method for rendering index html page
