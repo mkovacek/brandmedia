@@ -60,7 +60,7 @@ class MentionDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvide
   * Statistics by user mentions
   * */
   def statisticsByUser(keywordId: Long, size: Int): Future[Seq[Statistics]] = {
-    val query = mention.filter(_.keywordId === keywordId).filter(_.userUsername =!= "").filter(_.userUsername =!= " ").groupBy(_.userUsername).map{
+    val query = mention.filter(_.keywordId === keywordId).filter(_.userUserName =!= "").filter(_.userUserName =!= " ").groupBy(_.userUserName).map{
       case (s, results) => (s -> results.length)
     }
 

@@ -11,7 +11,7 @@ import modules.Twitter.KillSwitch
 import play.api.libs.json.{JsObject, JsValue, Json}
 import play.api.mvc.AnyContent
 import pdi.jwt._
-import play.api.Configuration
+import play.api.{Configuration, Logger}
 import play.api.libs.ws.WSClient
 
 import scala.concurrent.{Await, Future}
@@ -44,6 +44,7 @@ class PanelHandler @Inject()(userDAO: UserDAO, keywordDAO: KeywordDAO, mentionDA
     }
     Await.result(keywordDAO.saveUserKeyword(UserKeyword(user.id,word.id,ACTIVE)), 1 second)
     val keywordList = Await.result(keywordDAO.all(user.id), 1 second)
+    Logger.info("save keyword: "+keyword)
     if(newStream) this.startNewStream()
     Json.toJson(keywordList)
   }
@@ -77,6 +78,7 @@ class PanelHandler @Inject()(userDAO: UserDAO, keywordDAO: KeywordDAO, mentionDA
       Await.result(keywordDAO.updateKeywordStatus(keywordId,active), 1 second)
       this.startNewStream()
     }
+    Logger.info("update and start: "+keywordId)
     keywordDAO.updateUserKeywordStatus(keywordId,active,user.id)
     Json.obj("success" -> "successfully updated keyword status")
   }
@@ -95,6 +97,7 @@ class PanelHandler @Inject()(userDAO: UserDAO, keywordDAO: KeywordDAO, mentionDA
       Await.result(keywordDAO.updateKeywordStatus(keywordId,active), 1 second)
       this.startNewStream()
     }
+    Logger.info("update and stop: "+keywordId)
     Json.obj("success" -> "successfully updated keyword status")
   }
 

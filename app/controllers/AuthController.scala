@@ -7,6 +7,7 @@ import modules.Authentication.AuthHandler
 import modules.Security.Secured
 import play.api.mvc._
 import pdi.jwt._
+import play.api.Logger
 import play.api.libs.json.Json
 
 /**
@@ -25,6 +26,7 @@ class AuthController @Inject()(auth: AuthHandler, forms: Forms) extends Controll
         BadRequest(views.html.homepage.authentication.signUp(formWithErrors))
       },
       data => {
+        Logger.info("signup: "+data.name+" "+data.surname)
         val jwt = JwtSession() + ("user", auth.saveUser(data))
         Redirect(controllers.routes.PanelController.panel(jwt.serialize)).withJwtSession(jwt)
       }
@@ -40,6 +42,7 @@ class AuthController @Inject()(auth: AuthHandler, forms: Forms) extends Controll
         BadRequest(views.html.homepage.authentication.signIn(formWithErrors))
       },
       data => {
+        Logger.info("signin: "+data.email)
         val jwt = JwtSession() + ("user", auth.authenticate(data))
         Redirect(controllers.routes.PanelController.panel(jwt.serialize)).withJwtSession(jwt)
       }
