@@ -23,8 +23,6 @@
             users : [],
             countries : []
         };
-        this.userChartObj='';
-        this.countrieChartObj='';
     }
 
     AnalyticsCtrl.prototype.getActiveKeywordList = function () {
@@ -35,8 +33,6 @@
     };
 
     AnalyticsCtrl.prototype.getAnalytics = function (keywordId) {
-        if( this.userChartObj !== '') this.userChartObj.flush();
-        if( this.countrieChartObj !== '') this.countrieChartObj.flush();
         this.columns = {
             users : [],
             countries : []
@@ -53,40 +49,16 @@
         };
         this._AnalyticsServices.fetchAnalytics(data).then(function(response){
             angular.forEach(response.users,function(user){
-                var column = {
-                    id : user.name,
-                    type: 'pie'
-                };
-                var columnData = {};
-                columnData[user.name] = user.value;
-                that.columns.users.push(column);
-                that.columnsData.users.push(columnData);
+                that.columns.users.push(user.name);
+                that.columnsData.users.push(user.value);
             });
 
             angular.forEach(response.countries,function(countrie){
-                var column = {
-                    id : countrie.name,
-                    type: 'pie'
-                };
-                var columnData = {};
-                columnData[countrie.name] = countrie.value;
-                that.columns.countries.push(column);
-                that.columnsData.countries.push(columnData);
+                that.columns.countries.push(countrie.name);
+                that.columnsData.countries.push(countrie.value);
             });
             that.show = true;
         })
-    };
-
-    AnalyticsCtrl.prototype.userChart = function (chartObj) {
-        this.userChartObj = chartObj;
-    };
-
-    AnalyticsCtrl.prototype.countrieChart = function (chartObj) {
-        this.countrieChartObj = chartObj;
-    };
-
-    AnalyticsCtrl.prototype.formatPie =function(value, ratio, id) {
-        return d3.format(',')(value);
     };
 
 })();

@@ -1,6 +1,6 @@
 name := """Brandmedia"""
 
-version := "1.0"
+version := "1.1"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
@@ -17,8 +17,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-slick-evolutions" % "2.0.0",
   "com.github.t3hnar" %% "scala-bcrypt" % "2.6",
   "com.pauldijou" %% "jwt-play" % "0.8.0",
-  "org.json4s" %% "json4s-native" % "3.3.0",
-  "com.github.tototoshi" %% "slick-joda-mapper" % "2.2.0"
+  "org.json4s" %% "json4s-native" % "3.3.0"
 )
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
 

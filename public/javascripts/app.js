@@ -5,7 +5,7 @@ angular.module('brandmedia', [
   'ui.router',
   'angularUtils.directives.dirPagination',
   'angular-storage',
-  'gridshore.c3js.chart',
+  'chart.js',
   'angularMoment',
   'interceptor.services',
   'home.controller',

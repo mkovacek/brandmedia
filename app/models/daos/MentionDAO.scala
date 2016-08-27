@@ -33,13 +33,13 @@ class MentionDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvide
   * Method save new mention
   * */
   def save(keywords: Seq[Keyword], tweet: Tweet) = Future {
-    keywords.filter(k => tweet.text.toLowerCase.contains(k.keyword.toLowerCase)).map{ keyword =>
+    keywords.filter(k => tweet.text.get.toLowerCase.contains(k.keyword.toLowerCase)).map{ keyword =>
       val newMention = Mention(
         tweet.text,
         tweet.created_at,
         tweet.user.name,
         tweet.user.screen_name,
-        tweet.user.location,
+        tweet.place.country,
         tweet.user.profile_background_image_url_https,
         tweet.retweet_count,
         tweet.favorite_count,
@@ -60,7 +60,7 @@ class MentionDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvide
   * Statistics by user mentions
   * */
   def statisticsByUser(keywordId: Long, size: Int): Future[Seq[Statistics]] = {
-    val query = mention.filter(_.keywordId === keywordId).filter(_.userName =!= "").filter(_.userName =!= " ").groupBy(_.userName).map{
+    val query = mention.filter(_.keywordId === keywordId).filter(_.userUsername =!= "").filter(_.userUsername =!= " ").groupBy(_.userUsername).map{
       case (s, results) => (s -> results.length)
     }
 
@@ -86,7 +86,7 @@ class MentionDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvide
       result <- query.take(size).result
     ) yield {
       result.map{ row =>
-        Statistics(row._1.getOrElse("Unknown location"),row._2)
+        Statistics(row._1,row._2)
       }
     }
     db.run(action)

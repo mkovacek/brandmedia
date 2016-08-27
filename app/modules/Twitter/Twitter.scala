@@ -14,7 +14,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 import org.json4s._
 import org.json4s.native.JsonMethods._
-import play.api.Configuration
+import play.api.{Configuration, Logger}
 
 /**
   * Created by Matija on 20.8.2016..
@@ -40,16 +40,20 @@ class Twitter @Inject() (ws: WSClient, killSwitch: KillSwitch, conf: Configurati
       .withMethod("POST")
       .stream()
       .map { response =>
-        println(keywordsString+" : "+response.headers.status)
+        Logger.info(keywordsString+" : "+response.headers.status)
         if(response.headers.status == 200){
           response.body
             .via(sharedKillSwitch.flow)
             .scan("")((acc, curr) => if (acc.contains("\r\n")) curr.utf8String else acc + curr.utf8String)
             .filter(_.contains("\r\n"))
-            .map(json => Try(parse(json).extract[Tweet]))
+            .map { json =>
+              if ((json.contains("disconnect") && json.contains("code")) || (json.contains("warning") && json.contains("code") )) Logger.info("json: " + json)
+              Try(parse(json).extract[Tweet])
+            }
             .runForeach {
               case Success(tweet) => mentionDAO.save(keywords,tweet)
-              case Failure(e) => ""
+              case Failure(e) => Logger.info("Failure: "+e.getMessage)
+              case other => Logger.info("Other: "+other.toString)
             }
         }
         if(response.headers.status == 420){
