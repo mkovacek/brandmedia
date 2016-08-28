@@ -7,13 +7,10 @@ import models.Other.Twitter.RestartStream
 import models.daos.{KeywordDAO, MentionDAO, UserDAO}
 import models.entities.{Keyword, User, UserDetails, UserKeyword}
 import modules.Security.AuthenticatedRequest
-import modules.Twitter.KillSwitch
 import play.api.libs.json.{JsObject, JsValue, Json}
 import play.api.mvc.AnyContent
 import pdi.jwt._
-import play.api.{Configuration, Logger}
-import play.api.libs.ws.WSClient
-
+import play.api.Logger
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -22,7 +19,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
   * Created by Matija on 19.8.2016..
   * Panel handler
   */
-class PanelHandler @Inject()(userDAO: UserDAO, keywordDAO: KeywordDAO, mentionDAO: MentionDAO, ws: WSClient, killSwitch: KillSwitch, conf: Configuration, @Named("stream-actor") streamActor: ActorRef) {
+class PanelHandler @Inject()(userDAO: UserDAO, keywordDAO: KeywordDAO, mentionDAO: MentionDAO, @Named("stream-actor") streamActor: ActorRef) {
   /*
   * Method fetch user details
   * */

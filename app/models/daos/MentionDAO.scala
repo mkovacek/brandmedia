@@ -6,6 +6,7 @@ import models.Other.Statistics.Statistics
 import models.Other.Twitter.Tweet
 import models.entities.{Keyword, Mention}
 import models.persistence.MentionTable
+import play.api.Logger
 import play.api.db.slick.DatabaseConfigProvider
 import slick.driver.JdbcProfile
 
@@ -32,21 +33,8 @@ class MentionDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvide
   /*
   * Method save new mention
   * */
-  def save(keywords: Seq[Keyword], tweet: Tweet) = Future {
-    keywords.filter(k => tweet.text.get.toLowerCase.contains(k.keyword.toLowerCase)).map{ keyword =>
-      val newMention = Mention(
-        tweet.text,
-        tweet.created_at,
-        tweet.user.name,
-        tweet.user.screen_name,
-        tweet.place.country,
-        tweet.user.profile_background_image_url_https,
-        tweet.retweet_count,
-        tweet.favorite_count,
-        keyword.id
-      )
-      db.run(mention += newMention)
-    }
+  def save(newMention: Mention) = Future {
+    db.run(mention += newMention)
   }
 
   /*
@@ -78,7 +66,7 @@ class MentionDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvide
   * Statistics by countrie mentions
   * */
   def statisticsByCountries(keywordId: Long, size: Int): Future[Seq[Statistics]] = {
-    val query = mention.filter(_.keywordId === keywordId).filter(_.userLocation.isDefined).filter(_.userLocation =!= "").filter(_.userLocation =!= " ").groupBy(_.userLocation).map{
+    val query = mention.filter(_.keywordId === keywordId).filter(_.userLocation =!= "Unknown country").filter(_.userLocation =!= "").filter(_.userLocation =!= " ").groupBy(_.userLocation).map{
       case (s, results) => (s -> results.length)
     }
 
