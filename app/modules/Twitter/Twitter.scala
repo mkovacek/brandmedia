@@ -51,7 +51,9 @@ class Twitter @Inject() (ws: WSClient, killSwitch: KillSwitch, conf: Configurati
               Try(parse(json).extract[Tweet])
             }
             .runForeach {
-              case Success(tweet) => mentionDAO.save(keywords,tweet)
+              case Success(tweet) =>
+                Logger.info("success: new tweet")
+                mentionDAO.save(keywords,tweet)
               case Failure(e) => Logger.info("Failure: "+e.getMessage)
               case other => Logger.info("Other: "+other.toString)
             }
