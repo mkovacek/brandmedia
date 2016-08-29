@@ -5,11 +5,11 @@ import javax.inject.{Inject, Named, Singleton}
 
 import akka.actor.{ActorRef, ActorSystem}
 import akka.stream._
-import models.Other.Twitter.{RestartStream, StreamPair, Tweet}
+import models.Other.Twitter.{StartStream,RestartStream, StreamPair, Tweet}
 import models.daos.MentionDAO
 import models.entities.Keyword
 import play.api.libs.ws._
-
+import scala.concurrent.duration._
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 import org.json4s._
@@ -30,9 +30,11 @@ class Twitter @Inject() (ws: WSClient, conf: Configuration, mentionDAO: MentionD
   var time = 0
   val sharedKillSwitch = KillSwitches.shared("twitter")
 
+
+
   def startStream(keywords: Seq[Keyword], keywordsString: String) = Future {
     if(time > 300000) time = 60000
-    time = time + 60000
+    time = time + 10000
     ws.url(url)
       .sign(OAuthCalculator(consumerKey,requestToken))
       .withQueryString(("track",keywordsString))
@@ -40,16 +42,28 @@ class Twitter @Inject() (ws: WSClient, conf: Configuration, mentionDAO: MentionD
       .stream()
       .map { response =>
         Logger.info(keywordsString+" : "+response.headers.status)
-
         if(response.headers.status == 200){
           response.body
             .via(sharedKillSwitch.flow)
+            .idleTimeout(30.seconds)
             .scan("")((acc, curr) => if (acc.contains("\r\n")) curr.utf8String else acc + curr.utf8String)
             .filter(_.contains("\r\n"))
             .map ( json => Try(parse(json).extract[Tweet]) )
             .runForeach {
               case Success(tweet) => mentionActor ! StreamPair(keywords,tweet)
               case Failure(e) => Logger.info("Failure: "+e.getMessage)
+            }
+            .onComplete {
+              case Success(_) =>
+                Logger.info("Done")
+                this.stopStream()
+                Thread.sleep(time)
+                streamRestartActor ! StartStream(keywords,keywordsString)
+              case Failure(e) =>
+                Logger.info("Failed with "+e.getMessage)
+                this.stopStream()
+                Thread.sleep(time)
+                streamRestartActor ! StartStream(keywords,keywordsString)
             }
         }
         if(response.headers.status.toString.startsWith("4")){
@@ -64,9 +78,8 @@ class Twitter @Inject() (ws: WSClient, conf: Configuration, mentionDAO: MentionD
                 Logger.info("error: "+error)
                 this.stopStream()
                 Thread.sleep(time)
-                streamRestartActor ! RestartStream(keywords,keywordsString)
+                streamRestartActor ! StartStream(keywords,keywordsString)
             }
-
         }
       }
   }

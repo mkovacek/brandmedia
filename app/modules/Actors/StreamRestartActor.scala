@@ -16,6 +16,7 @@ object StreamRestartActor {
 class StreamRestartActor @Inject() (@Named("stream-actor") streamActor: ActorRef) extends Actor{
   def receive: Receive = {
     case "Restart" => streamActor ! PoisonPill
-    case RestartStream(keywords, keywordsString) => streamActor ! StartStream(keywords,keywordsString)
+    case RestartStream(keywords, keywordsString) => streamActor ! RestartStream(keywords,keywordsString)
+    case StartStream(keywords, keywordsString) => streamActor ! StartStream(keywords,keywordsString)
   }
 }
